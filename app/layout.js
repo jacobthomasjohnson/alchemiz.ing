@@ -23,10 +23,10 @@ export default function RootLayout({ children }) {
       <body className="text-sm uppercase w-full h-full">
         <div className="h-full w-full flex flex-col" id="whole-page">
           <Header />
-          <div className="flex h-full w-full px-16 gap-4 mb-16">
-            <LeftPanel className="w-[30%]" /> {/* Contains Inventory, Resources Panels */}
-            <CenterPanel className="w-[40%]" /> {/* Contains Gather, Sell, Crafting, and Actions Panels */}
-            <RightPanel className="w-[30%]" /> {/* Contains Progress, Upgrades Panels */}
+          <div className="flex h-full w-full px-16 gap-2 mb-16">
+            <LeftPanel className="" /> {/* Contains Inventory, Resources Panels */}
+            <CenterPanel /> {/* Contains Gather, Sell, Crafting, and Actions Panels */}
+            <RightPanel /> {/* Contains Progress, Upgrades Panels */}
           </div>
         </div>
       </body>

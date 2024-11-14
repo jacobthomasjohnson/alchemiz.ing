@@ -1,7 +1,5 @@
 "use client";
 
-import { useState } from "react";
-
 export function ListItem({ text, amount }) {
       return (
             <div

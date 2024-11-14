@@ -1,5 +1,7 @@
 'use client';
 
+import { DisplayStat } from "./Stat";
+
 import Image from "next/image";
 
 export function Header() {
@@ -12,11 +14,11 @@ export function Header() {
                 <div className="h-[32px] w-[1px] bg-[#212121]"></div>
                 <div>ALCHEMIZ.ING</div>
                 <div className="h-[32px] w-[1px] bg-[#212121]"></div>
-                <div>$800</div>
+                <DisplayStat type="currentMoney" />
                 <div className="h-[32px] w-[1px] bg-[#212121]"></div>
-                <div>$0.90/s</div>
+                <DisplayStat type="earnMoneyRate" />
                 <div className="h-[32px] w-[1px] bg-[#212121]"></div>
-                <div>LEVEL 8</div>
+                <DisplayStat type="currentLevel" />
             </div>
             <div className="grow"></div>
             <div className="flex items-center gap-8 pr-16" id="header-right">
