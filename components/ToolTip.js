@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect, cloneElement } from 'react';
 
-const ToolTip = ({ children }) => {
+const ToolTip = ({ children, defaultText = "No item selected" }) => {
   const [mousePosition, setMousePosition] = useState({ top: 0, left: 0 });
   const [isVisible, setIsVisible] = useState(false);
-  
-  // Extract the text prop from the ListItem
+
+  // Extract the text prop from the ListItem, if available
   const itemText = children.props.text;
 
   useEffect(() => {
@@ -22,13 +22,11 @@ const ToolTip = ({ children }) => {
       });
     };
 
-    // Only add event listeners on client side
     if (typeof window !== 'undefined') {
       window.addEventListener("mousemove", handleMouseMove);
     }
 
     return () => {
-      // Cleanup event listener
       if (typeof window !== 'undefined') {
         window.removeEventListener("mousemove", handleMouseMove);
       }
@@ -37,6 +35,9 @@ const ToolTip = ({ children }) => {
 
   const showTooltip = () => setIsVisible(true);
   const hideTooltip = () => setIsVisible(false);
+
+  // Tooltip text based on whether `itemText` is present
+  const tooltipText = itemText ? `Sell a ${itemText}` : defaultText;
 
   return (
     <div
@@ -55,7 +56,7 @@ const ToolTip = ({ children }) => {
           className="fixed z-10 pointer-events-none bg-[#222222] text-white text-sm rounded p-4 
                       transition-opacity duration-500 opacity-100"
         >
-          {`Sell a ${itemText}`}
+          {tooltipText}
         </div>
       )}
     </div>
