@@ -22,9 +22,9 @@ export default function RootLayout({ children }) {
       <link rel="icon" href="/favicon.png" type="image/png" />
       <body className="text-sm uppercase w-full h-full">
         <div className="h-full w-full flex flex-col" id="whole-page">
-          <Header />
+          <Header currency={1000} incomeRate={0.42} level={12} />
           <div className="flex h-full w-full px-16 gap-2 mb-16">
-            <LeftPanel className="" /> {/* Contains Inventory, Resources Panels */}
+            <LeftPanel /> {/* Contains Inventory, Resources Panels */}
             <CenterPanel /> {/* Contains Gather, Sell, Crafting, and Actions Panels */}
             <RightPanel /> {/* Contains Progress, Upgrades Panels */}
           </div>

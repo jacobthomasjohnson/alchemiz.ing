@@ -52,7 +52,7 @@ export function RightPanel({ width }) {
         </div>
       </div>
 
-      <div className="flex w-full p-8 border-[#222222] border-b-[2px] group hover:cursor-pointer">
+      {/* <div className="flex w-full p-8 border-[#222222] border-b-[2px] group hover:cursor-pointer">
         <div className="">
           MANA SPRING
         </div>
@@ -70,7 +70,7 @@ export function RightPanel({ width }) {
         <div className="p-3 -m-3 outline outline-[1px] rounded-sm text-xs flex items-center outline-[#1C1C1C] group-hover:bg-[#1C1C1C]">
           UPGRADE
         </div>
-      </div>
+      </div> */}
 
     </div>
   )

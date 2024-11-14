@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 export function DisplayStat({ type }) {
       return (
@@ -7,15 +7,15 @@ export function DisplayStat({ type }) {
                   ?
 
                   /* Type of Stat to return: Rate of Money Earned */
-                  <div className="lowercase">money per second</div>
+                  <div className="lowercase">$3.55/s</div>
                   
                   : type === "currentMoney" ?
 
-                  <>Current Money</>
+                  <>$829</>
 
                   : type === "currentLevel" ?
 
-                  <>Current Level</>
+                  <>Level 42</>
 
                   :
 

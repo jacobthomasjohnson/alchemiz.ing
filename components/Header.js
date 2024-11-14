@@ -1,10 +1,10 @@
 'use client';
 
-import { DisplayStat } from "./Stat";
+import { DisplayStat } from "./DisplayStat";
 
 import Image from "next/image";
 
-export function Header() {
+export function Header({ currency, incomeRate, level }) {
     return (
         <header className="w-full h-[150px] flex" id="header">
             <div className="flex items-center gap-8 pl-16" id="header-left">
@@ -14,11 +14,11 @@ export function Header() {
                 <div className="h-[32px] w-[1px] bg-[#212121]"></div>
                 <div>ALCHEMIZ.ING</div>
                 <div className="h-[32px] w-[1px] bg-[#212121]"></div>
-                <DisplayStat type="currentMoney" />
+                {currency}
                 <div className="h-[32px] w-[1px] bg-[#212121]"></div>
-                <DisplayStat type="earnMoneyRate" />
+                {incomeRate}/s
                 <div className="h-[32px] w-[1px] bg-[#212121]"></div>
-                <DisplayStat type="currentLevel" />
+                {level}
             </div>
             <div className="grow"></div>
             <div className="flex items-center gap-8 pr-16" id="header-right">
