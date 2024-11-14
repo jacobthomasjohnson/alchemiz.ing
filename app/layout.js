@@ -1,5 +1,4 @@
 import "./globals.css";
-import Image from "next/image";
 
 import { Header } from "@/components/Header";
 
@@ -22,13 +21,20 @@ export default function RootLayout({ children }) {
       <link rel="icon" href="/favicon.png" type="image/png" />
       <body className="text-sm uppercase w-full h-full">
         <div className="h-full w-full flex flex-col" id="whole-page">
-          <Header currency={1000} incomeRate={0.42} level={12} />
+
+          <Header currency={0} incomeRate={0} level={1} />
+
           <div className="flex h-full w-full px-16 gap-2 mb-16">
+
             <LeftPanel /> {/* Contains Inventory, Resources Panels */}
             <CenterPanel /> {/* Contains Gather, Sell, Crafting, and Actions Panels */}
             <RightPanel /> {/* Contains Progress, Upgrades Panels */}
+
           </div>
         </div>
+
+        {children}
+
       </body>
     </html>
   );

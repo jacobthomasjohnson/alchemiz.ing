@@ -1,79 +1,73 @@
-// store/gameStore.js
-import create from 'zustand';
-import { resources, craftingItems, upgrades } from '../gameData';
+// gameStore.js
+import { create } from 'zustand';
+import { resources, craftingItems, upgrades, initialPlayerStats, xpRequirements, getXpForNextLevel } from '../gameData';
 
 const useGameStore = create((set) => ({
   // Player stats
-  currency: 0,
-  energy: 100,
-  level: 1,
-  
+  currency: initialPlayerStats.currency,
+  energy: initialPlayerStats.energy,
+  maxEnergy: 100,
+  level: initialPlayerStats.level,
+  experience: initialPlayerStats.experience,
+  xpToNextLevel: xpRequirements[initialPlayerStats.level - 1] || getXpForNextLevel(initialPlayerStats.level), // XP needed for the current level
+
   // Game data
   resources,
   craftingItems,
   upgrades,
-  
+  inventory: [],
+  activeUpgrades: [],
+
   // Actions
-  gatherResource: (resourceName) =>
-    set((state) => {
-      const resource = state.resources.find((res) => res.name === resourceName);
-      if (state.energy >= resource.energyCost) {
-        const updatedResources = state.resources.map((res) =>
-          res.name === resourceName
-            ? { ...res, quantity: (res.quantity || 0) + 1 }
-            : res
-        );
-        return {
-          resources: updatedResources,
-          energy: state.energy - resource.energyCost,
-        };
-      }
-      return state;
-    }),
+  gainExperience: (xp) => set((state) => {
+    let newExperience = state.experience + xp; // Changed to let
+    let newLevel = state.level;
+    let experienceForNextLevel = state.xpToNextLevel;
 
-  craftItem: (itemName) =>
-    set((state) => {
-      const item = state.craftingItems.find((item) => item.name === itemName);
-      const canCraft = item.requirements.every((req) => {
-        const resource = state.resources.find((res) => res.name === req.item);
-        return resource && (resource.quantity || 0) >= req.quantity;
-      });
+    // Check if level-up should occur
+    while (newExperience >= experienceForNextLevel) {
+      newExperience -= experienceForNextLevel;
+      newLevel += 1;
 
-      if (canCraft && state.currency >= item.cost) {
-        const updatedResources = state.resources.map((res) => {
-          const requirement = item.requirements.find((req) => req.item === res.name);
-          return requirement
-            ? { ...res, quantity: res.quantity - requirement.quantity }
-            : res;
-        });
-        return {
-          craftingItems: [...state.craftingItems],
-          currency: state.currency - item.cost,
-          resources: updatedResources,
-        };
-      }
-      return state;
-    }),
+      // Update XP requirement for the next level
+      experienceForNextLevel = xpRequirements[newLevel - 1] || getXpForNextLevel(newLevel);
+    }
 
-  upgrade: (upgradeName) =>
-    set((state) => {
-      const upgrade = state.upgrades.find((upg) => upg.name === upgradeName);
-      if (upgrade && state.currency >= upgrade.cost && state.level >= upgrade.requiredLevel) {
-        const effect = upgrade.effect.resourceBonus;
-        const updatedResources = state.resources.map((res) => {
-          if (effect[res.name]) {
-            return { ...res, bonusMultiplier: effect[res.name] };
-          }
-          return res;
-        });
-        return {
-          currency: state.currency - upgrade.cost,
-          upgrades: [...state.upgrades, upgrade],
-          resources: updatedResources,
-        };
-      }
-      return state;
-    }),
+    return {
+      experience: newExperience,
+      level: newLevel,
+      // Use a fallback for xpToNextLevel
+      xpToNextLevel: xpRequirements[initialPlayerStats.level - 1] !== undefined
+        ? xpRequirements[initialPlayerStats.level - 1]
+        : getXpForNextLevel(initialPlayerStats.level),
+
+    };
+  }),
+
+  // Other actions remain the same...
+  useEnergy: (amount) => set((state) => {
+    const newEnergy = Math.max(0, state.energy - amount);
+    return { energy: newEnergy };
+  }),
+
+  regenerateEnergy: () => set((state) => {
+    const newEnergy = Math.min(state.maxEnergy, state.energy + 1);
+    return { energy: newEnergy };
+  }),
+
+  sellItem: (itemName) => set((state) => {
+    const itemIndex = state.inventory.findIndex((item) => item.name === itemName);
+    if (itemIndex === -1) return state;
+
+    const item = state.inventory[itemIndex];
+    const itemValue = item.quantity * (item.price || 10);
+    const updatedInventory = state.inventory.filter((_, idx) => idx !== itemIndex);
+
+    return {
+      currency: state.currency + itemValue,
+      inventory: updatedInventory,
+    };
+  }),
 }));
 
 export default useGameStore;

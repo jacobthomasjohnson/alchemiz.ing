@@ -14,11 +14,11 @@ export function Header({ currency, incomeRate, level }) {
                 <div className="h-[32px] w-[1px] bg-[#212121]"></div>
                 <div>ALCHEMIZ.ING</div>
                 <div className="h-[32px] w-[1px] bg-[#212121]"></div>
-                {currency}
+                ${currency}
                 <div className="h-[32px] w-[1px] bg-[#212121]"></div>
-                {incomeRate}/s
+                {incomeRate} / s
                 <div className="h-[32px] w-[1px] bg-[#212121]"></div>
-                {level}
+                LEVEL {level}
             </div>
             <div className="grow"></div>
             <div className="flex items-center gap-8 pr-16" id="header-right">
