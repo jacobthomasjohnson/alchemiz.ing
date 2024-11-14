@@ -3,7 +3,7 @@ import { ActionButton } from "./ActionButton";
 
 export function CenterPanel({ width }) {
   return (
-    <div className={`w-[${width}] h-full grid grid-cols-2 grid-rows-2 gap-2`}>
+    <div className={`w-full h-full grid grid-cols-2 grid-rows-2 gap-2`}>
       
       {/* Gather Section */}
       <div className="flex flex-col bg-[#131313]">

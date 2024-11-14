@@ -12,6 +12,10 @@ export const metadata = {
   description: "Become the Greatest Alchemist",
 };
 
+// git add .
+// git commit -m "Message"
+// git push
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -19,10 +23,10 @@ export default function RootLayout({ children }) {
       <body className="text-sm uppercase w-full h-full">
         <div className="h-full w-full flex flex-col" id="whole-page">
           <Header />
-          <div className="w-full h-full flex px-16 gap-4 mb-16">
-            <LeftPanel width={`30%`} /> {/* Contains Inventory, Resources Panels */}
-            <CenterPanel width={`40%`} /> {/* Contains Gather, Sell, Crafting, and Actions Panels */}
-            <RightPanel width={`30%`} /> {/* Contains Progress, Upgrades Panels */}
+          <div className="flex h-full w-full px-16 gap-4 mb-16">
+            <LeftPanel className="w-[30%]" /> {/* Contains Inventory, Resources Panels */}
+            <CenterPanel className="w-[40%]" /> {/* Contains Gather, Sell, Crafting, and Actions Panels */}
+            <RightPanel className="w-[30%]" /> {/* Contains Progress, Upgrades Panels */}
           </div>
         </div>
       </body>

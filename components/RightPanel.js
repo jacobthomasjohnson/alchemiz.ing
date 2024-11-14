@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function RightPanel({ width }) {
   return (
-    <div className={`w-[${width}]`}>
+    <div className={`w-full`}>
 
       <div className="p-8 gap-2 flex items-center justify-center border-b border-[#212121]">
         <Image

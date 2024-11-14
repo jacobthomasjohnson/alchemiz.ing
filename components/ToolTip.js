@@ -1,49 +1,51 @@
 "use client";
 
-// components/Tooltip.js
-import { useState } from "react";
+import React, { useState, cloneElement } from 'react';
 
-export default function ToolTip({ text, children, position = "top" }) {
+const ToolTip = ({ children }) => {
+  const [mousePosition, setMousePosition] = useState({ top: 0, left: 0 });
   const [isVisible, setIsVisible] = useState(false);
+
+  // Extract the text prop from the ListItem
+  const itemText = children.props.text;
+
+  const handleMouseMove = (e) => {
+    const { clientX: x, clientY: y } = e;
+    const offsetX = window.innerWidth - x < 150 ? -120 : 20;
+    const offsetY = 30;
+
+    setMousePosition({
+      top: y + offsetY,
+      left: x + offsetX,
+    });
+  };
 
   const showTooltip = () => setIsVisible(true);
   const hideTooltip = () => setIsVisible(false);
 
   return (
     <div
-      className="relative w-full"
+      onMouseMove={handleMouseMove}
       onMouseEnter={showTooltip}
       onMouseLeave={hideTooltip}
+      className="relative w-full"
     >
-      {/* The component to be wrapped */}
-      {children}
+      {cloneElement(children, { className: "tooltip-trigger" })}
 
-      {/* Tooltip */}
       {isVisible && (
         <div
-          className={`absolute z-10 p-4 text-white text-xs bg-transparent rounded-sm ${getTooltipPosition(
-            position
-          )}`}
+          style={{
+            top: mousePosition.top,
+            left: mousePosition.left,
+          }}
+          className={`fixed z-10 pointer-events-none bg-[#222222] text-white text-sm rounded p-4 
+                      transition-opacity duration-1000 opacity-0 ${isVisible ? 'opacity-100' : ''}`}
         >
-          {text}
+          {`Sell a ${itemText}`}
         </div>
       )}
     </div>
   );
-}
+};
 
-// Helper function to determine tooltip position
-function getTooltipPosition(position) {
-  switch (position) {
-    case "top":
-      return "bottom-full left-1/2 transform -translate-x-1/2 mb-2";
-    case "bottom":
-      return "top-full left-1/2 transform -translate-x-1/2 mt-2";
-    case "left":
-      return "right-full top-1/2 transform -translate-y-1/2 mr-2";
-    case "right":
-      return "left-full top-1/2 transform -translate-y-1/2 ml-2";
-    default:
-      return "bottom-full left-1/2 transform -translate-x-1/2 mb-2";
-  }
-}
+export default ToolTip;
