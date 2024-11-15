@@ -5,7 +5,7 @@ export const resources = [
   {
     id: 1,
     name: 'Herbs',
-    energyCost: 10,
+    energyCost: 5,
     price: 5,
     requiredLevel: 1,
     description: 'A basic ingredient for potions.',
@@ -14,20 +14,20 @@ export const resources = [
   {
     id: 2,
     name: 'Water',
-    energyCost: 8,
+    energyCost: 6,
     price: 2,
     requiredLevel: 1,
     description: 'Essential for potion mixing.',
-    xpGain: 3,  // XP gained for gathering this resource
+    xpGain: 5,  // XP gained for gathering this resource
   },
   {
     id: 3,
     name: 'Coal',
-    energyCost: 12,
+    energyCost: 10,
     price: 15,
     requiredLevel: 2,
     description: 'Used for heating brews.',
-    xpGain: 8,  // XP gained for gathering this resource
+    xpGain: 15,  // XP gained for gathering this resource
   },
   {
     id: 4,
@@ -36,7 +36,7 @@ export const resources = [
     price: 25,
     requiredLevel: 3,
     description: 'Increases potency of magical potions.',
-    xpGain: 15,  // XP gained for gathering this resource
+    xpGain: 32,  // XP gained for gathering this resource
   },
 ];
 
