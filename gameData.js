@@ -9,6 +9,7 @@ export const resources = [
     price: 5,
     requiredLevel: 1,
     description: 'A basic ingredient for potions.',
+    xpGain: 5,  // XP gained for gathering this resource
   },
   {
     id: 2,
@@ -17,6 +18,7 @@ export const resources = [
     price: 2,
     requiredLevel: 1,
     description: 'Essential for potion mixing.',
+    xpGain: 3,  // XP gained for gathering this resource
   },
   {
     id: 3,
@@ -25,6 +27,7 @@ export const resources = [
     price: 15,
     requiredLevel: 2,
     description: 'Used for heating brews.',
+    xpGain: 8,  // XP gained for gathering this resource
   },
   {
     id: 4,
@@ -33,6 +36,7 @@ export const resources = [
     price: 25,
     requiredLevel: 3,
     description: 'Increases potency of magical potions.',
+    xpGain: 15,  // XP gained for gathering this resource
   },
 ];
 
@@ -42,12 +46,10 @@ export const xpRequirements = [
   200,  // Level 3 to 4
   250,  // Level 4 to 5
   300,  // Level 5 to 6
-  // Add additional levels as needed
 ];
 
 // Optional function if using a dynamic calculation for fallback
 export const getXpForNextLevel = (level) => 100 + (level - 1) * 50;
-
 
 // Define crafting items and recipes
 export const craftingItems = [
@@ -113,8 +115,11 @@ export const upgrades = [
 
 // Player's initial stats
 export const initialPlayerStats = {
-  currency: 100,
+  currency: 0,
   energy: 100,
   level: 1,
   experience: 0,
+  energyGain: 15,          // Amount of energy regained per time unit or action
+  currencyGain: 2,        // Amount of currency gained per action
+  incomeRate: 0,          // Base income rate in currency per second
 };

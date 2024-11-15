@@ -20,11 +20,11 @@ export function ResourcesPanel() {
         <p className="px-8 py-4">No resources are available.</p>
       ) : (
         availableResources.map((resource) => (
-          <ListItem
-            text={resource.name}
-            amount={resource.quantity || 0}
-            action={<button onClick={() => gatherResource(resource.name)}>Collect</button>}
-          />
+            <ListItem
+              text={resource.name}
+              amount={resource.quantity || 0}
+              action={<button onClick={() => gatherResource(resource.name)}>Collect</button>}
+            />
         ))
       )}
     </>

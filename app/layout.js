@@ -6,6 +6,8 @@ import { LeftPanel } from "@/components/LeftPanel";
 import { CenterPanel } from "@/components/CenterPanel";
 import { RightPanel } from "@/components/RightPanel";
 
+import { InitGame } from "@/components/InitGame";
+
 export const metadata = {
   title: "Alchemiz.ing",
   description: "Become the Greatest Alchemist",
@@ -22,7 +24,9 @@ export default function RootLayout({ children }) {
       <body className="text-sm uppercase w-full h-full">
         <div className="h-full w-full flex flex-col" id="whole-page">
 
-          <Header currency={0} incomeRate={0} level={1} />
+          <InitGame />
+
+          <Header />
 
           <div className="flex h-full w-full px-16 gap-2 mb-16">
 
