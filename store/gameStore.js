@@ -126,23 +126,23 @@ const useGameStore = create((set) => ({
   craftItem: (itemName) => set((state) => {
     const item = state.inventoryPool.find((res) => res.name === itemName);
     const xpFromCraftingMultiplier = state.xpFromCraftingMultiplier;
-  
+
     if (!item) {
       console.log("Item not found in inventoryPool");
       return state;
     }
-  
+
     // Check if player has enough resources for crafting
     const hasRequiredResources = item.requirements.every((req) => {
       const resource = state.resources.find((res) => res.name === req.item);
       return resource && resource.quantity >= req.quantity;
     });
-  
+
     if (!hasRequiredResources) {
       console.log("Not enough resources to craft:", itemName);
       return state;
     }
-  
+
     // Deduct required resources
     const updatedResources = state.resources.map((res) => {
       const requirement = item.requirements.find((req) => req.item === res.name);
@@ -151,28 +151,28 @@ const useGameStore = create((set) => ({
       }
       return res;
     });
-  
+
     // Add crafted item to inventory
     const updatedInventory = [...state.inventory];
     const inventoryItem = updatedInventory.find((invItem) => invItem.name === item.name);
-  
+
     if (inventoryItem) {
       inventoryItem.quantity += 1;
     } else {
       updatedInventory.push({ name: item.name, quantity: 1 });
     }
-  
+
     // Gain experience for crafting
     const craftingXp = item.cost * xpFromCraftingMultiplier;
     console.log(`Adding XP from crafting ${itemName}: ${craftingXp}`);
     useGameStore.getState().gainExperience(craftingXp);
-  
+
     return {
       resources: updatedResources,
       inventory: updatedInventory,
     };
   }),
-  
+
 
 
 
@@ -194,33 +194,35 @@ const useGameStore = create((set) => ({
 
   sellItem: (itemName) => set((state) => {
     const itemIndex = state.inventory.findIndex((item) => item.name === itemName);
+    const inventoryItem = state.inventoryPool.find((poolItem) => poolItem.name === itemName);
     const xpFromSalesMultiplier = state.xpFromSalesMultiplier;
-    if (itemIndex === -1) {
-      console.log(`Item ${itemName} not found in inventory.`);
-      return state; // Item not found in the inventory
+
+    if (itemIndex === -1 || !inventoryItem) {
+      console.log(`Item ${itemName} not found in inventory or inventoryPool.`);
+      return state; // Item not found in either inventory or inventoryPool
     }
 
-    const item = state.inventory[itemIndex];
-    const itemPrice = item.price || 10; // Default price if none specified
-
+    const itemCost = inventoryItem.cost; // Retrieve cost from inventoryPool
     let updatedInventory = [...state.inventory];
 
     // Reduce quantity or remove item if quantity is 1
-    if (item.quantity > 1) {
+    if (state.inventory[itemIndex].quantity > 1) {
       updatedInventory[itemIndex].quantity -= 1;
     } else {
       updatedInventory = updatedInventory.filter((_, idx) => idx !== itemIndex);
     }
 
-    console.log(`Sold 1 ${itemName} for ${itemPrice} currency.`);
+    console.log(`Sold 1 ${itemName} for ${itemCost} currency.`);
 
-    useGameStore.getState().gainExperience(itemPrice * xpFromSalesMultiplier);
+    // Gain experience based on the item's cost and multiplier
+    useGameStore.getState().gainExperience(itemCost * xpFromSalesMultiplier);
 
     return {
-      currency: state.currency + itemPrice, // Add the price of one item to currency
+      currency: state.currency + itemCost, // Add the item's cost to currency
       inventory: updatedInventory,
     };
   }),
+
 
 
   startIncomeTimer: () => {
