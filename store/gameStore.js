@@ -1,11 +1,11 @@
 // gameStore.js
 import { create } from 'zustand';
-import { resources, craftingItems, upgrades, initialPlayerStats, xpRequirements, getXpForNextLevel } from '../gameData';
+import { resources, availableResources, craftingItems, upgrades, initialPlayerStats, xpRequirements, getXpForNextLevel, resourcePool, inventoryPool } from '../gameData';
 
 const useGameStore = create((set) => ({
-  // Player stats
+
   currency: initialPlayerStats.currency,
-  accumulatedCurrency: 0, // New state to accumulate small increments
+  accumulatedCurrency: 0,
   energy: initialPlayerStats.energy,
   maxEnergy: 100,
   level: initialPlayerStats.level,
@@ -14,31 +14,23 @@ const useGameStore = create((set) => ({
   energyGain: initialPlayerStats.energyGain,
   currencyGain: initialPlayerStats.currencyGain,
   incomeRate: initialPlayerStats.incomeRate,
+  resourcePool: resourcePool,
+  inventoryPool: inventoryPool,
 
-  // Game data
-  resources,
-  craftingItems,
   upgrades,
+  resources: [],
   inventory: [],
   activeUpgrades: [],
 
-
-
-  // Actions
   gainExperience: (xp) => set((state) => {
     let newExperience = state.experience + xp;
     let newLevel = state.level;
     let experienceForNextLevel = state.xpToNextLevel;
-
-    // Check if level-up should occur
     while (newExperience >= experienceForNextLevel) {
       newExperience -= experienceForNextLevel;
       newLevel += 1;
-
-      // Update XP requirement for the next level
       experienceForNextLevel = xpRequirements[newLevel - 1] || getXpForNextLevel(newLevel);
     }
-
     return {
       experience: newExperience,
       level: newLevel,
@@ -46,13 +38,10 @@ const useGameStore = create((set) => ({
     };
   }),
 
-  // Accumulate small increments and update currency visibly
   increaseCurrency: () => {
     set((state) => {
       const increment = state.incomeRate / 100; // Smaller increment per 0.01 second
       const newAccumulatedCurrency = state.accumulatedCurrency + increment;
-
-      // If accumulated currency reaches 0.01 or more, add to currency
       if (newAccumulatedCurrency >= 0.01) {
         const wholeUnits = Math.floor(newAccumulatedCurrency * 100) / 100; // Round down to two decimals
         return {
@@ -66,48 +55,40 @@ const useGameStore = create((set) => ({
       }
     });
 
-    // Trigger the next increment after 0.01 second
     setTimeout(() => {
       useGameStore.getState().increaseCurrency(); // Recursively call itself every 0.01 second
     }, 10);
   },
 
-  // Updated gatherResource action
   gatherResource: (resourceName) => set((state) => {
-    const resource = state.resources.find((res) => res.name === resourceName);
+    const resource = state.resourcePool.find((res) => res.name === resourceName);
     console.log("Resource to gather:", resource);
 
-    // Check if resource exists and player has enough energy
     if (resource && state.energy >= resource.energyCost) {
-      console.log("Gathering resource:", resourceName, "Energy before:", state.energy);
-
-      // Deduct energy and add resource to inventory
-      const updatedInventory = [...state.inventory];
-      const inventoryItem = updatedInventory.find((item) => item.name === resource.name);
-      if (inventoryItem) {
+      const updatedResources = [...state.resources];
+      const resourceItem = updatedResources.find((item) => item.name === resource.name);
+      if (resourceItem) {
         inventoryItem.quantity += 1;
       } else {
-        updatedInventory.push({ name: resource.name, quantity: 1 });
+        updatedResources.push({ name: resource.name, quantity: 1 });
       }
 
-      // Gain experience points for gathering the resource
-      let newExperience = state.experience + resource.xpGain; // Changed to let
+      let newExperience = state.experience + resource.xpGain;
       let newLevel = state.level;
       let experienceForNextLevel = state.xpToNextLevel;
 
-      // Check if level-up should occur
       while (newExperience >= experienceForNextLevel) {
         newExperience -= experienceForNextLevel;
         newLevel += 1;
         experienceForNextLevel = xpRequirements[newLevel - 1] || getXpForNextLevel(newLevel);
       }
 
-      console.log("Energy after deduction:", state.energy - resource.energyCost);
-      console.log("Updated Inventory:", updatedInventory);
+      // console.log("Energy after deduction:", state.energy - resource.energyCost);
+      // console.log("Updated Inventory:", updatedInventory);
 
       return {
         energy: state.energy - resource.energyCost,
-        inventory: updatedInventory,
+        resource: updatedResources,
         experience: newExperience,
         level: newLevel,
         xpToNextLevel: experienceForNextLevel,
@@ -116,6 +97,48 @@ const useGameStore = create((set) => ({
 
     console.log("Not enough energy or resource not found");
     return state; // Return unchanged state if not enough energy
+
+  }),
+
+  craftItem: (itemName) => set((state) => {
+    const item = state.craftingItems.find((res) => res.name === craftingItems);
+    console.log("Resource to gather:", item);
+
+    if (item && state.energy >= resource.energyCost) { // Change to check if player has correct materials necessary for craft
+
+      const updatedInventory = [...state.inventory];
+      const craftable = updatedResources.find((item) => item.name === resource.name);
+      if (craftable) {
+        inventoryItem.quantity += 1;
+      } else {
+        updatedResources.push({ name: resource.name, quantity: 1 });
+      }
+
+      let newExperience = state.experience + resource.xpGain;
+      let newLevel = state.level;
+      let experienceForNextLevel = state.xpToNextLevel;
+
+      while (newExperience >= experienceForNextLevel) {
+        newExperience -= experienceForNextLevel;
+        newLevel += 1;
+        experienceForNextLevel = xpRequirements[newLevel - 1] || getXpForNextLevel(newLevel);
+      }
+
+      // console.log("Energy after deduction:", state.energy - resource.energyCost);
+      // console.log("Updated Inventory:", updatedInventory);
+
+      return {
+        energy: state.energy - resource.energyCost,
+        resource: updatedResources,
+        experience: newExperience,
+        level: newLevel,
+        xpToNextLevel: experienceForNextLevel,
+      };
+    }
+
+    console.log("Not enough energy or resource not found");
+    return state; // Return unchanged state if not enough energy
+    
   }),
 
 

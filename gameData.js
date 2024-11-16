@@ -1,64 +1,61 @@
-// gameData.js
-
 // Define resources available for gathering
-export const resources = [
+export const resourcePool = [
   {
     id: 1,
-    name: 'Herbs',
-    energyCost: 5,
-    price: 5,
-    requiredLevel: 1,
-    description: 'A basic ingredient for potions.',
-    xpGain: 5,  // XP gained for gathering this resource
-  },
-  {
-    id: 2,
     name: 'Water',
-    energyCost: 6,
+    energyCost: 10,
     price: 2,
     requiredLevel: 1,
     description: 'Essential for potion mixing.',
-    xpGain: 5,  // XP gained for gathering this resource
+    xpGain: 10,
+  },
+  {
+    id: 2,
+    name: 'Herbs',
+    energyCost: 15,
+    price: 3,
+    requiredLevel: 2,
+    description: 'A basic ingredient for potions.',
+    xpGain: 20,
   },
   {
     id: 3,
     name: 'Coal',
-    energyCost: 10,
-    price: 15,
-    requiredLevel: 2,
+    energyCost: 37,
+    price: 23,
+    requiredLevel: 4,
     description: 'Used for heating brews.',
-    xpGain: 15,  // XP gained for gathering this resource
+    xpGain: 53,
   },
   {
     id: 4,
     name: 'Mana Leaves',
-    energyCost: 20,
-    price: 25,
-    requiredLevel: 3,
+    energyCost: 40,
+    price: 82,
+    requiredLevel: 7,
     description: 'Increases potency of magical potions.',
-    xpGain: 32,  // XP gained for gathering this resource
+    xpGain: 194,
   },
 ];
 
 export const xpRequirements = [
   100,  // Level 1 to 2
-  150,  // Level 2 to 3
-  200,  // Level 3 to 4
-  250,  // Level 4 to 5
-  300,  // Level 5 to 6
+  200,  // Level 2 to 3
+  400,  // Level 3 to 4
+  800,  // Level 4 to 5
+  1600,  // Level 5 to 6
 ];
 
 // Optional function if using a dynamic calculation for fallback
 export const getXpForNextLevel = (level) => 100 + (level - 1) * 50;
 
 // Define crafting items and recipes
-export const craftingItems = [
+export const inventoryPool = [
   {
     id: 1,
-    name: 'Healing Salve',
+    name: 'Water Ration',
     requirements: [
-      { item: 'Herbs', quantity: 1 },
-      { item: 'Water', quantity: 2 },
+      { item: 'Water', quantity: 6 },
     ],
     cost: 20,
     requiredLevel: 1,
@@ -66,13 +63,13 @@ export const craftingItems = [
   },
   {
     id: 2,
-    name: 'Minor Mana Potion',
+    name: 'Stew',
     requirements: [
-      { item: 'Herbs', quantity: 2 },
-      { item: 'Mana Leaves', quantity: 1 },
+      { item: 'Herbs', quantity: 7 },
+      { item: 'Water', quantity: 12 },
     ],
     cost: 25,
-    requiredLevel: 2,
+    requiredLevel: 3,
     buffs: { mana: 15 },
   },
   {
@@ -94,8 +91,8 @@ export const upgrades = [
     id: 1,
     name: 'Herb Garden',
     cost: 100,
-    requiredLevel: 2,
-    effect: { resourceBonus: { "Herbs": 1.2 } }, // 20% increase in Herbs yield
+    requiredLevel: 4,
+    effect: { resourceBonus: { "Herbs": 1.5 } }, // 20% increase in Herbs yield
   },
   {
     id: 2,
@@ -119,7 +116,7 @@ export const initialPlayerStats = {
   energy: 100,
   level: 1,
   experience: 0,
-  energyGain: 15,          // Amount of energy regained per time unit or action
-  currencyGain: 2,        // Amount of currency gained per action
+  energyGain: 20,          // Amount of energy regained per time unit or action
+  currencyGain: 0,        // Amount of currency gained per action
   incomeRate: 0,          // Base income rate in currency per second
 };
