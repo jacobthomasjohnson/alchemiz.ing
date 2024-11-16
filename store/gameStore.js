@@ -83,45 +83,56 @@ const useGameStore = create((set) => ({
     return state;
   }),
 
+
   gatherResource: (resourceName) => set((state) => {
     const resource = state.resourcePool.find((res) => res.name === resourceName);
-    console.log("Resource to gather:", resource);
-
-    if (resource && state.energy >= resource.energyCost) {
-      const updatedResources = [...state.resources];
-      const resourceItem = updatedResources.find((item) => item.name === resource.name);
-      if (resourceItem) {
-        resourceItem.quantity += 1;
-      } else {
-        updatedResources.push({ name: resource.name, quantity: 1 });
-      }
-
-      let newExperience = state.experience + resource.xpGain;
-      let newLevel = state.level;
-      let experienceForNextLevel = state.xpToNextLevel;
-
-      while (newExperience >= experienceForNextLevel) {
-        newExperience -= experienceForNextLevel;
-        newLevel += 1;
-        experienceForNextLevel = xpRequirements[newLevel - 1] || getXpForNextLevel(newLevel);
-      }
-
-      // console.log("Energy after deduction:", state.energy - resource.energyCost);
-      console.log("Updated Inventory:", updatedResources);
-
-      return {
-        energy: state.energy - resource.energyCost,
-        resources: updatedResources,
-        experience: newExperience,
-        level: newLevel,
-        xpToNextLevel: experienceForNextLevel,
-      };
+  
+    if (!resource) {
+      console.error("Resource not found:", resourceName);
+      return state; // No changes if the resource is invalid
     }
-
-    console.log("Not enough energy or resource not found");
-    return state; // Return unchanged state if not enough energy
-
+  
+    if (state.energy < resource.energyCost) {
+      console.warn("Not enough energy to gather:", resourceName);
+      return state; // No changes if energy is insufficient
+    }
+  
+    // Update the resource quantity or add it if not present
+    const updatedResources = [...state.resources];
+    const resourceItem = updatedResources.find((item) => item.name === resource.name);
+  
+    if (resourceItem) {
+      resourceItem.quantity += 1;
+    } else {
+      updatedResources.push({ name: resource.name, quantity: 1 });
+    }
+  
+    // Handle experience gain and level-up logic
+    let newExperience = state.experience + resource.xpGain;
+    let newLevel = state.level;
+    let experienceForNextLevel = state.xpToNextLevel;
+  
+    while (newExperience >= experienceForNextLevel) {
+      newExperience -= experienceForNextLevel;
+      newLevel += 1;
+      experienceForNextLevel = xpRequirements[newLevel - 1] || getXpForNextLevel(newLevel);
+    }
+  
+    console.log("Gathered resource:", resourceName);
+    console.log("Updated Resources:", updatedResources);
+  
+    return {
+      ...state,
+      energy: state.energy - resource.energyCost, // Deduct energy cost
+      resources: updatedResources, // Updated resources list
+      experience: newExperience, // New experience after gathering
+      level: newLevel, // Updated level
+      xpToNextLevel: experienceForNextLevel, // Updated XP needed for next level
+      recentlyUpdatedResource: resource.name, // Track the updated resource
+    };
   }),
+
+  
 
   craftItem: (itemName) => set((state) => {
     const item = state.inventoryPool.find((res) => res.name === itemName);

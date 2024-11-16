@@ -23,3 +23,22 @@ body {
   font-family: "Kantumruy Pro", Helvetica, sans-serif;
   height: 100%;
 }
+
+@keyframes glowFade {
+  0% {
+    background-color: rgba(119, 189, 87, 0.6);
+    opacity: 1;
+  }
+  100% {
+    background-color: rgba(119, 189, 87, 0);
+    opacity: 0;
+  }
+}
+
+.animate-glow {
+  animation: glowFade 1s ease-out;
+  pointer-events: none; /* Prevent interfering with clicks */
+  position: absolute;
+  inset: 0;
+  z-index: 10; /* Ensure it overlays */
+}
