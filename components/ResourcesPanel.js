@@ -8,10 +8,9 @@ import useGameStore from '../store/gameStore';
 export function ResourcesPanel() {
 
   const level = useGameStore((state) => state.level);
-
   const resources = useGameStore((state) => state.resources);
   const gatherResource = useGameStore((state) => state.gatherResource);
-  const availableResources = resources.filter((resource) => resource.requiredLevel <= level);
+  const availableResources = resources.filter((resource) => resource.quantity > 0);
 
   return (
     <>

@@ -10,7 +10,7 @@ export function EnergyBar() {
   useEffect(() => {
     const regenInterval = setInterval(() => {
       regenerateEnergy();
-    }, 1000); // Regenerate 1 energy per second
+    }, 100); // Regenerate set amount of energy every 100th of a second.
 
     return () => clearInterval(regenInterval);
   }, [regenerateEnergy]);
@@ -26,7 +26,7 @@ export function EnergyBar() {
       <div className="w-[75%]">
         <div className="w-full h-6 overflow-hidden bg-[#222222] rounded-lg">
           <div
-            className="h-full bg-[#48768A] transition-all duration-500"
+            className="h-full bg-[#48768A] transition-all ease-linear duration-100"
             style={{ width: `${energyProgress}%` }}
           ></div>
         </div>

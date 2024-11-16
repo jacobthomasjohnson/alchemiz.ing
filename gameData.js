@@ -3,7 +3,7 @@ export const resourcePool = [
   {
     id: 1,
     name: 'Water',
-    energyCost: 10,
+    energyCost: 30,
     price: 2,
     requiredLevel: 1,
     description: 'Essential for potion mixing.',
@@ -12,7 +12,7 @@ export const resourcePool = [
   {
     id: 2,
     name: 'Herbs',
-    energyCost: 15,
+    energyCost: 45,
     price: 3,
     requiredLevel: 2,
     description: 'A basic ingredient for potions.',
@@ -21,7 +21,7 @@ export const resourcePool = [
   {
     id: 3,
     name: 'Coal',
-    energyCost: 37,
+    energyCost: 75,
     price: 23,
     requiredLevel: 4,
     description: 'Used for heating brews.',
@@ -116,7 +116,7 @@ export const initialPlayerStats = {
   energy: 100,
   level: 1,
   experience: 0,
-  energyGain: 20,          // Amount of energy regained per time unit or action
+  energyGain: 2,          // Amount of energy regained per time unit or action
   currencyGain: 0,        // Amount of currency gained per action
   incomeRate: 0,          // Base income rate in currency per second
 };

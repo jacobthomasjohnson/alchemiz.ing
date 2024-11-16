@@ -60,13 +60,13 @@ export function CraftingPanel() {
           displayedItems.map((item) => (
             <ToolTip key={item.name} tooltipText={`Craft ${item.name}`}>
               <ListItem
+                onClick={() => craftItem(item.name)}
                 text={item.name}
                 amount={
                   item.requirements
                     .map((req) => `${req.quantity}x ${req.item}`)
                     .join(", ") || "No requirements"
                 } // Displays all requirements
-                action={<button onClick={() => craftItem(item.name)}>Craft</button>}
               />
             </ToolTip>
           ))
