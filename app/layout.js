@@ -22,20 +22,17 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <link rel="icon" href="/favicon.png" type="image/png" />
       <body className="text-sm uppercase w-full h-full">
-        <div className="h-full w-full flex flex-col" id="whole-page">
-
+        <div className="h-full w-full flex flex-col overflow-hidden" id="whole-page">
           <InitGame />
-
           <Header />
-
-          <div className="flex h-full w-full px-16 gap-2 mb-16">
-
+          <div className="flex grow w-full px-16 gap-2 overflow-hidden">
             <LeftPanel /> {/* Contains Inventory, Resources Panels */}
             <CenterPanel /> {/* Contains Gather, Sell, Crafting, and Actions Panels */}
             <RightPanel /> {/* Contains Progress, Upgrades Panels */}
-
           </div>
+          <div className="h-[150px] min-h-[150px]"></div>
         </div>
+
 
         {children}
 

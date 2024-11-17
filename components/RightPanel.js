@@ -8,7 +8,7 @@ import { UpgradesPanel } from './UpgradesPanel';
 
 export function RightPanel() {
   return (
-    <div className="w-full">
+    <div className="w-[50%]">
       <SectionHeader title={`PROGRESS`} icon={"/progress.svg"} width={17} height={17} />
       <LevelBar />
       <EnergyBar />

@@ -149,17 +149,17 @@ export const inventoryPool = [
   },
   {
     id: 2,
-    name: 'Minor Mana',
-    requirements: [{ item: 'Mana Leaves', quantity: 2 }, { item: 'Water', quantity: 1 }],
-    cost: 30,
-    requiredLevel: 5, // Mana Leaves are unlocked at level 5
-  },
-  {
-    id: 3,
     name: 'Antidote',
     requirements: [{ item: 'Herbs', quantity: 5 }, { item: 'Coal', quantity: 1 }],
     cost: 50,
     requiredLevel: 2, // Coal is unlocked at level 2
+  },
+  {
+    id: 3,
+    name: 'Minor Mana',
+    requirements: [{ item: 'Mana Leaves', quantity: 2 }, { item: 'Water', quantity: 1 }],
+    cost: 30,
+    requiredLevel: 5, // Mana Leaves are unlocked at level 5
   },
   {
     id: 4,
@@ -258,13 +258,24 @@ export const upgradesPool = [
   },
 ];
 
-// Player's initial stats
 export const initialPlayerStats = {
-  currency: 0,
+  currency: 10000,
   energy: 100,
-  level: 1,
+  level: 1000,
   experience: 0,
   energyGain: 2,          // Amount of energy regained per time unit or action
   currencyGain: 0,        // Amount of currency gained per action
   incomeRate: 0,          // Base income rate in currency per second
 };
+
+
+// Player's initial stats
+// export const initialPlayerStats = {
+//   currency: 0,
+//   energy: 100,
+//   level: 1,
+//   experience: 0,
+//   energyGain: 2,          // Amount of energy regained per time unit or action
+//   currencyGain: 0,        // Amount of currency gained per action
+//   incomeRate: 0,          // Base income rate in currency per second
+// };

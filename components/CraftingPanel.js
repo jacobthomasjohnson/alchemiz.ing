@@ -17,7 +17,7 @@ export function CraftingPanel() {
   const displayedItems = inventoryPool.filter((item) => item.requiredLevel <= level);
 
   return (
-    <div className="flex flex-col bg-[#131313] rounded-xl rounded-tr-none rounded-tl-none">
+    <div className="flex flex-col grow bg-[#131313] rounded-xl rounded-tr-none rounded-tl-none overflow-hidden">
       <SectionHeaderColor
         title="CRAFTING"
         iconSrc="/crafting.svg"
@@ -35,30 +35,32 @@ export function CraftingPanel() {
           <Image alt="Down Carrot" src="/down-carrot.svg" width={8} height={8} />
         </span>
       </div>
-      {displayedItems.length === 0 ? (
-        <p className="px-8 py-4">No crafts are available at your level.</p>
-      ) : (
-        displayedItems.map((item) => {
-          const canCraft = checkRequiredResources(item.name); // Dynamically check craftability
+      <div className="grow overflow-auto">
+        {displayedItems.length === 0 ? (
+          <p className="px-8 py-4">No crafts are available at your level.</p>
+        ) : (
+          displayedItems.map((item) => {
+            const canCraft = checkRequiredResources(item.name); // Dynamically check craftability
 
-          return (
-            <ToolTip key={item.name} tooltipText={`Craft ${item.name}`}>
-              <ListItem
-                onClick={canCraft ? () => craftItem(item.name) : undefined} // Disable crafting if not craftable
-                columns={3}
-                value={item.cost}
-                amount={
-                  item.requirements
-                    .map((req) => `${req.quantity}x ${req.item}`)
-                    .join(" | ") || "No requirements"
-                } // Display all requirements
-                text={item.name}
-                opacity={canCraft ? 1 : 0.25} // Adjust opacity dynamically
-              />
-            </ToolTip>
-          );
-        })
-      )}
+            return (
+              <ToolTip key={item.name} tooltipText={`Craft ${item.name}`}>
+                <ListItem
+                  onClick={canCraft ? () => craftItem(item.name) : undefined} // Disable crafting if not craftable
+                  columns={3}
+                  value={item.cost}
+                  amount={
+                    item.requirements
+                      .map((req) => `${req.quantity}x ${req.item}`)
+                      .join(" | ") || "No requirements"
+                  } // Display all requirements
+                  text={item.name}
+                  opacity={canCraft ? 1 : 0.25} // Adjust opacity dynamically
+                />
+              </ToolTip>
+            );
+          })
+        )}
+      </div>
     </div>
   );
 }

@@ -12,7 +12,7 @@ export function Header() {
   const currentLevel = useGameStore((state) => state.level); // Adjusted to match store
 
   return (
-    <header className="w-full h-[150px] flex" id="header">
+    <header className="w-full h-[200px] min-h-[200px] flex" id="header">
       <div className="flex items-center gap-8 pl-16" id="header-left">
         <div>
           <Image src="/pink-iso-potion.gif" width={48} height={48} alt="Potion Icon" />
