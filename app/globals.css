@@ -29,22 +29,29 @@ body {
 
 @keyframes glowFade {
   0% {
-    background-color: rgba(112, 139, 86, 0.9);
-    color: #101010;
+    background-color: rgba(112, 139, 86, 0.15);
     opacity: 1;
   }
   100% {
     background-color: rgba(112, 139, 86, 0);
-    color: inherit;
     opacity: 0;
   }
 }
 
 .animate-glow {
-  animation: glowFade 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation: glowFade 2s cubic-bezier(0.075, 0.82, 0.165, 1);
   pointer-events: none; /* Prevent interfering with clicks */
   position: absolute;
   inset: 0;
   z-index: 10; /* Ensure it overlays */
 }
 
+.os-scrollbar {
+  background: var(--background); /* Scrollbar background */
+}
+.os-scrollbar-thumb {
+  background: #708B56; /* Thumb color */
+}
+.os-scrollbar-thumb:hover {
+  background: #4A5E5D; /* Thumb hover color */
+}

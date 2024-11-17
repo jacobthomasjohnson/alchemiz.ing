@@ -6,6 +6,9 @@ import ToolTip from "./ToolTip";
 import Image from "next/image";
 import useGameStore from "../store/gameStore";
 
+import 'overlayscrollbars/overlayscrollbars.css';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+
 export function CraftingPanel() {
   const level = useGameStore((state) => state.level);
   const inventoryPool = useGameStore((state) => state.inventoryPool);
@@ -26,41 +29,53 @@ export function CraftingPanel() {
         iconHeight={20}
       />
       <div className="flex justify-between p-4 px-6 items-center border-b-[1px] border-[#212121] bg-background">
-        <span className="flex gap-2">
+        <span className="flex gap-2 w-[45%]">
           POTION
           <Image alt="Down Carrot" src="/down-carrot.svg" width={8} height={8} />
         </span>
-        <span className="flex gap-2 justify-end">
+        <span className="w-[10%] text-center">VALUE</span>
+        <span className="flex gap-2 justify-end  w-[45%]">
           REQUIREMENTS
           <Image alt="Down Carrot" src="/down-carrot.svg" width={8} height={8} />
         </span>
       </div>
-      <div className="grow overflow-auto">
-        {displayedItems.length === 0 ? (
-          <p className="px-8 py-4">No crafts are available at your level.</p>
-        ) : (
-          displayedItems.map((item) => {
-            const canCraft = checkRequiredResources(item.name); // Dynamically check craftability
+      <OverlayScrollbarsComponent
+        options={{
+          className: "os-theme-dark", // Predefined dark theme
+          scrollbars: {
+            autoHide: "scroll", // Auto-hide scrollbar when not in use
+            autoHideDelay: 100, // Delay before hiding
+          },
+        }}
+        className="grow overflow-hidden"
+      >
+        <div className="grow overflow-auto">
+          {displayedItems.length === 0 ? (
+            <p className="px-8 py-4">No crafts are available at your level.</p>
+          ) : (
+            displayedItems.map((item) => {
+              const canCraft = checkRequiredResources(item.name); // Dynamically check craftability
 
-            return (
-              <ToolTip key={item.name} tooltipText={`Craft ${item.name}`}>
-                <ListItem
-                  onClick={canCraft ? () => craftItem(item.name) : undefined} // Disable crafting if not craftable
-                  columns={3}
-                  value={item.cost}
-                  amount={
-                    item.requirements
-                      .map((req) => `${req.quantity}x ${req.item}`)
-                      .join(" | ") || "No requirements"
-                  } // Display all requirements
-                  text={item.name}
-                  opacity={canCraft ? 1 : 0.25} // Adjust opacity dynamically
-                />
-              </ToolTip>
-            );
-          })
-        )}
-      </div>
+              return (
+                <ToolTip key={item.name} tooltipText={`Craft ${item.name}`} disabled={!canCraft ? true : false}>
+                  <ListItem
+                    onClick={canCraft ? () => craftItem(item.name) : undefined} // Disable crafting if not craftable
+                    columns={3}
+                    value={item.cost}
+                    amount={
+                      item.requirements
+                        .map((req) => `${req.quantity}x ${req.item}`)
+                        .join(" | ") || "No requirements"
+                    } // Display all requirements
+                    text={item.name}
+                    opacity={canCraft ? 1 : 0.1} // Adjust opacity dynamically
+                  />
+                </ToolTip>
+              );
+            })
+          )}
+        </div>
+      </OverlayScrollbarsComponent>
     </div>
   );
 }

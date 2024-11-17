@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, cloneElement } from 'react';
 
-const ToolTip = ({ children, tooltipText = "No item selected", bgColor }) => {
+const ToolTip = ({ children, tooltipText = "No item selected", bgColor, disabled }) => {
   const [mousePosition, setMousePosition] = useState({ top: 0, left: 0 });
   const [isVisible, setIsVisible] = useState(false);
 
@@ -35,9 +35,12 @@ const ToolTip = ({ children, tooltipText = "No item selected", bgColor }) => {
 
   return (
     <div
+      
       onMouseEnter={showTooltip}
       onMouseLeave={hideTooltip}
-      className="relative w-full tooltip-wrapper"
+
+      className={`relative w-full tooltip-wrapper ${disabled ? 'pointer-events-none' : ''}`}
+
     >
       {cloneElement(children, { className: "tooltip-trigger" })}
 

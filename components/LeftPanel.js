@@ -9,7 +9,7 @@ import useGameStore from '../store/gameStore';
 
 export function LeftPanel() {
   return (
-    <div className="w-[50%]">
+    <div className="w-[100%]">
       <ResourcesPanel />
       <InventoryPanel />
     </div>

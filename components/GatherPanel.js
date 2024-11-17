@@ -5,6 +5,9 @@ import { ListItem } from "./ListItem";
 import ToolTip from "./ToolTip";
 import Image from "next/image";
 
+import 'overlayscrollbars/overlayscrollbars.css';
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+
 import useGameStore from "../store/gameStore";
 
 export function GatherPanel() {
@@ -41,23 +44,33 @@ export function GatherPanel() {
                               <Image alt="Down Carrot" src="/down-carrot.svg" width={8} height={8} />
                         </span>
                   </div>
-                  <div className="grow overflow-auto">
-                        {displayedResources.length === 0 ? (
-                              <p>No resources available for your level.</p>
-                        ) : (
-                              displayedResources.map((resource) => (
-                                    <ToolTip key={resource.name} tooltipText={`Gather ${resource.name}`}>
-                                          <div onClick={() => handleGatherResource(resource.name)}>
-                                                <ListItem
-                                                      text={resource.name}
-                                                      amount={resource.energyCost || 0}
-                                                />
-                                          </div>
-                                    </ToolTip>
-                              ))
-                        )}
-                  </div>
-
+                  <OverlayScrollbarsComponent
+                        options={{
+                              className: "os-theme-dark", // Predefined dark theme
+                              scrollbars: {
+                                    autoHide: "scroll", // Auto-hide scrollbar when not in use
+                                    autoHideDelay: 100, // Delay before hiding
+                              },
+                        }}
+                        className="grow overflow-hidden"
+                  >
+                        <div className="grow overflow-auto">
+                              {displayedResources.length === 0 ? (
+                                    <p>No resources available for your level.</p>
+                              ) : (
+                                    displayedResources.map((resource) => (
+                                          <ToolTip key={resource.name} tooltipText={`Gather ${resource.name}`}>
+                                                <div onClick={() => handleGatherResource(resource.name)}>
+                                                      <ListItem
+                                                            text={resource.name}
+                                                            amount={resource.energyCost || 0}
+                                                      />
+                                                </div>
+                                          </ToolTip>
+                                    ))
+                              )}
+                        </div>
+                  </OverlayScrollbarsComponent>
             </div>
       );
 }

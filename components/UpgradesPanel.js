@@ -9,14 +9,12 @@ import useGameStore from "@/store/gameStore";
 export function UpgradesPanel() {
 
     const upgradesPool = useGameStore((state) => state.upgradesPool);
-    const upgrades = useGameStore((state) => state.upgrades);
     const currentLevel = useGameStore((state) => state.level);
+    const upgrades = useGameStore((state) => state.upgrades);
+    const applyUpgrade = useGameStore((state) => state.applyUpgrade);
+    const currency = useGameStore((state) => state.currency);
 
-    // const lockedUpgrades = upgradesPool.filter(
-    //     (item) => !upgrades.some((upgrade) => upgrade.id === item.id)
-    // ); // Returns all upgrades that have not been purchased from upgradesPool
-
-    const availableUpgrades = upgradesPool.filter((item) => item.requiredLevel <= currentLevel);
+    const availableUpgrades = upgradesPool.filter((item) => item.requiredLevel <= currentLevel && !upgrades.includes(item.id));
 
     return (
         <div className="">
@@ -26,7 +24,13 @@ export function UpgradesPanel() {
                     tooltipText={upgrade.description}
                     bgColor={'bg-[#4A5E5D]'}
                 >
-                    <ListItem key={upgrade.id} text={upgrade.name} amount={`$` + upgrade.cost} />
+                    <ListItem 
+                        key={upgrade.id} 
+                        text={upgrade.name} 
+                        amount={`$` + upgrade.cost}
+                        onClick={() => applyUpgrade(upgrade.id)}
+                        disabled={currency < upgrade.cost}
+                    />
                 </ToolTip>
             ))}
         </div>
