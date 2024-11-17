@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 import { resources, availableResources, craftingItems, upgrades, upgradesPool, initialPlayerStats, xpRequirements, getXpForNextLevel, resourcePool, inventoryPool } from '../gameData';
 
-const useGameStore = create((set) => ({
+const useGameStore = create((set, get) => ({
 
   /* Currency Related */
   currency: initialPlayerStats.currency,
@@ -130,7 +130,6 @@ const useGameStore = create((set) => ({
     }
   
     console.log("Gathered resource:", resourceName);
-    console.log("Updated Resources:", updatedResources);
   
     return {
       ...state,
@@ -142,58 +141,74 @@ const useGameStore = create((set) => ({
       recentlyUpdatedResource: resource.name, // Track the updated resource
     };
   }),
+  
 
+  checkRequiredResources: (itemName) => {
+    const state = get(); // Get the current state
+    const item = state.inventoryPool.find((item) => item.name === itemName);
+  
+    if (!item) return false; // Item not found
+  
+    return item.requirements.every((req) => {
+      const resource = state.resources.find((res) => res.name === req.item);
+      return resource && resource.quantity >= req.quantity; // Check if sufficient resources exist
+    });
+  },
+  
   
 
   craftItem: (itemName) => set((state) => {
     const item = state.inventoryPool.find((res) => res.name === itemName);
     const xpFromCraftingMultiplier = state.xpFromCraftingMultiplier;
-
+  
     if (!item) {
       console.log("Item not found in inventoryPool");
       return state;
     }
-
+  
     // Check if player has enough resources for crafting
     const hasRequiredResources = item.requirements.every((req) => {
       const resource = state.resources.find((res) => res.name === req.item);
       return resource && resource.quantity >= req.quantity;
     });
-
+  
     if (!hasRequiredResources) {
       console.log("Not enough resources to craft:", itemName);
       return state;
     }
-
-    // Deduct required resources
-    const updatedResources = state.resources.map((res) => {
-      const requirement = item.requirements.find((req) => req.item === res.name);
-      if (requirement) {
-        return { ...res, quantity: res.quantity - requirement.quantity };
-      }
-      return res;
-    });
-
+  
+    // Deduct required resources and remove any with zero quantity
+    const updatedResources = state.resources
+      .map((res) => {
+        const requirement = item.requirements.find((req) => req.item === res.name);
+        if (requirement) {
+          return { ...res, quantity: res.quantity - requirement.quantity };
+        }
+        return res;
+      })
+      .filter((res) => res.quantity > 0); // Remove resources with zero quantity
+  
     // Add crafted item to inventory
     const updatedInventory = [...state.inventory];
     const inventoryItem = updatedInventory.find((invItem) => invItem.name === item.name);
-
+  
     if (inventoryItem) {
       inventoryItem.quantity += 1;
     } else {
       updatedInventory.push({ name: item.name, quantity: 1, cost: item.cost });
     }
-
+  
     // Gain experience for crafting
     const craftingXp = item.cost * xpFromCraftingMultiplier;
     console.log(`Adding XP from crafting ${itemName}: ${craftingXp}`);
     useGameStore.getState().gainExperience(craftingXp);
-
+  
     return {
       resources: updatedResources,
       inventory: updatedInventory,
     };
   }),
+  
 
 
 
