@@ -1,37 +1,46 @@
 // gameStore.js
 import { create } from 'zustand';
-import { resources, availableResources, craftingItems, upgrades, initialPlayerStats, xpRequirements, getXpForNextLevel, resourcePool, inventoryPool } from '../gameData';
+import { resources, availableResources, craftingItems, upgrades, upgradesPool, initialPlayerStats, xpRequirements, getXpForNextLevel, resourcePool, inventoryPool } from '../gameData';
 
 const useGameStore = create((set) => ({
 
+  /* Currency Related */
   currency: initialPlayerStats.currency,
+  currencyGain: initialPlayerStats.currencyGain,
+  incomeRate: initialPlayerStats.incomeRate,
   accumulatedCurrency: 0,
+
+  /* Energy Related */
   energy: initialPlayerStats.energy,
   maxEnergy: 100,
+  energyGain: initialPlayerStats.energyGain,
+  
+  /* Level/XP Related */
   level: initialPlayerStats.level,
   experience: initialPlayerStats.experience,
   xpToNextLevel: xpRequirements[initialPlayerStats.level - 1] || getXpForNextLevel(initialPlayerStats.level),
-  energyGain: initialPlayerStats.energyGain,
-  currencyGain: initialPlayerStats.currencyGain,
-  incomeRate: initialPlayerStats.incomeRate,
+
+  /* Pools */
   resourcePool: resourcePool,
   inventoryPool: inventoryPool,
+  upgradesPool: upgradesPool,
+
+  /* Bonuses + Multipliers */
   xpFromSalesMultiplier: 1,
   xpFromCraftingMultiplier: 1,
-  upgrades,
 
+  /* Inventorys, Current Active Upgrades */
   resources: [],
   inventory: [],
-  activeUpgrades: [],
+  upgrades: [],
+
+  /* XP Related Functions */
 
   gainExperience: (xp) => set((state) => {
-
     const totalXp = xp * state.xpFromSalesMultiplier;
-
     let newExperience = state.experience + totalXp;
     let newLevel = state.level;
     let experienceForNextLevel = state.xpToNextLevel;
-
     while (newExperience >= experienceForNextLevel) {
       newExperience -= experienceForNextLevel;
       newLevel += 1;
@@ -51,6 +60,8 @@ const useGameStore = create((set) => ({
   setXpFromCraftingMultiplier: (multiplier) => set(() => ({
     xpFromCraftingMultiplier: multiplier,
   })),
+
+  /* Currency Related Functions */
 
   increaseCurrency: () => {
     set((state) => {
@@ -74,7 +85,7 @@ const useGameStore = create((set) => ({
     }, 10);
   },
 
-  // Example upgrade logic to modify multiplier
+  // Apply Upgrade
   applyUpgrade: (upgrade) => set((state) => {
     if (upgrade.type === "xpFromSalesMultiplier") {
       return { xpFromSalesMultiplier: state.xpFromSalesMultiplier * upgrade.value };

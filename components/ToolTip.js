@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, cloneElement } from 'react';
 
-const ToolTip = ({ children, tooltipText = "No item selected" }) => {
+const ToolTip = ({ children, tooltipText = "No item selected", bgColor }) => {
   const [mousePosition, setMousePosition] = useState({ top: 0, left: 0 });
   const [isVisible, setIsVisible] = useState(false);
 
@@ -47,7 +47,7 @@ const ToolTip = ({ children, tooltipText = "No item selected" }) => {
             top: mousePosition.top,
             left: mousePosition.left,
           }}
-          className={`fixed z-10 pointer-events-none bg-[#222222] text-white text-sm rounded p-4 
+          className={`${bgColor ? bgColor : 'bg-[#222222]'} fixed z-10 pointer-events-none text-white text-sm rounded p-4 
                       transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
         >
           {tooltipText}

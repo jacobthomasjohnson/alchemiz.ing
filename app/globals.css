@@ -7,6 +7,8 @@
 :root {
   --foreground: #B7B7B7;
   --background: #101010;
+
+  --transition-slow-fast: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
 * {
@@ -26,7 +28,7 @@ body {
 
 @keyframes glowFade {
   0% {
-    background-color: rgba(119, 189, 87, 0.6);
+    background-color: rgba(104, 148, 83, 0.1);
     opacity: 1;
   }
   100% {
@@ -42,3 +44,4 @@ body {
   inset: 0;
   z-index: 10; /* Ensure it overlays */
 }
+

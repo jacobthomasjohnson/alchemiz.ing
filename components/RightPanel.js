@@ -4,6 +4,7 @@ import React from 'react';
 import { LevelBar } from './LevelBar';
 import { EnergyBar } from './EnergyBar';
 import { SectionHeader } from './SectionHeader';
+import { UpgradesPanel } from './UpgradesPanel';
 
 export function RightPanel() {
   return (
@@ -11,7 +12,7 @@ export function RightPanel() {
       <SectionHeader title={`PROGRESS`} icon={"/progress.svg"} width={17} height={17} />
       <LevelBar />
       <EnergyBar />
-      {/* Add other right panel components here */}
+      <UpgradesPanel />
     </div>
   );
 }

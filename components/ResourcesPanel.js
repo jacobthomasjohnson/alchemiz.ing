@@ -59,7 +59,7 @@ export function ResourcesPanel() {
                 .map((div) => (
                   <div
                     key={div.id}
-                    className="absolute z-10 inset-0 animate-glow pointer-events-none"
+                    className="absolute z-10 inset-0 animate-glow pointer-events-none "
                   ></div>
                 ))}
             </div>

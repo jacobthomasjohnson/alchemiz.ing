@@ -3,7 +3,7 @@ export const resourcePool = [
   {
     id: 1,
     name: 'Water',
-    energyCost: 8,
+    energyCost: 15,
     price: 5,
     requiredLevel: 1,
     description: 'Essential for potion mixing.',
@@ -12,7 +12,7 @@ export const resourcePool = [
   {
     id: 2,
     name: 'Herbs',
-    energyCost: 13,
+    energyCost: 20,
     price: 3,
     requiredLevel: 3,
     description: 'A basic ingredient for potions.',
@@ -21,7 +21,7 @@ export const resourcePool = [
   {
     id: 3,
     name: 'Coal',
-    energyCost: 22,
+    energyCost: 50,
     price: 23,
     requiredLevel: 6,
     description: 'Used for heating brews.',
@@ -30,7 +30,7 @@ export const resourcePool = [
   {
     id: 4,
     name: 'Mana Leaves',
-    energyCost: 35,
+    energyCost: 95,
     price: 82,
     requiredLevel: 10,
     description: 'Increases potency of magical potions.',
@@ -40,10 +40,10 @@ export const resourcePool = [
 
 export const xpRequirements = [
   100,  // Level 1 to 2
-  200,  // Level 2 to 3
-  400,  // Level 3 to 4
-  800,  // Level 4 to 5
-  1600,  // Level 5 to 6
+  250,  // Level 2 to 3
+  500,  // Level 3 to 4
+  1200,  // Level 4 to 5
+  2500,  // Level 5 to 6
 ];
 
 // Optional function if using a dynamic calculation for fallback
@@ -59,7 +59,6 @@ export const inventoryPool = [
     ],
     cost: 20,
     requiredLevel: 1,
-    buffs: { health: 10 },
   },
   {
     id: 2,
@@ -70,7 +69,6 @@ export const inventoryPool = [
     ],
     cost: 25,
     requiredLevel: 3,
-    buffs: { mana: 15 },
   },
   {
     id: 3,
@@ -81,31 +79,31 @@ export const inventoryPool = [
     ],
     cost: 30,
     requiredLevel: 2,
-    buffs: { health: 5, status: 'Cure Poison' },
   },
 ];
 
 // Define upgrades that improve gathering or crafting abilities
-export const upgrades = [
+export const upgradesPool = [
   {
     id: 1,
     name: 'Herb Garden',
-    cost: 100,
-    requiredLevel: 4,
-    effect: { resourceBonus: { "Herbs": 1.5 } }, // 20% increase in Herbs yield
+    description: 'Automatically gather herbs at a slow rate.',
+    cost: 500,
+    requiredLevel: 1,
+    effect: {  },
   },
   {
     id: 2,
     name: 'Advanced Boiler',
     cost: 150,
-    requiredLevel: 3,
+    requiredLevel: 8,
     effect: { resourceBonus: { "Coal": 1.5 } }, // 50% increase in Coal yield
   },
   {
     id: 3,
     name: 'Mana Infuser',
     cost: 200,
-    requiredLevel: 4,
+    requiredLevel: 13,
     effect: { resourceBonus: { "Mana Leaves": 1.3 } }, // 30% increase in Mana Leaves yield
   },
 ];
