@@ -1,8 +1,16 @@
-// gameStore.js
 import { create } from 'zustand';
-import { resources, availableResources, craftingItems, upgrades, upgradesPool, initialPlayerStats, xpRequirements, getXpForNextLevel, resourcePool, inventoryPool } from '../gameData';
-
-
+import { 
+  resources, 
+  availableResources, 
+  craftingItems, 
+  upgrades, 
+  upgradesPool, 
+  initialPlayerStats, 
+  xpRequirements, 
+  getXpForNextLevel, 
+  resourcePool, 
+  inventoryPool 
+} from '../gameData';
 
 const handleMaxEnergyUpgrade = (state, value) => {
   return {
@@ -12,43 +20,32 @@ const handleMaxEnergyUpgrade = (state, value) => {
 
 const handleAutoGatherUpgrade = (state, resource, amount) => {
   const updatedAutoGather = { ...state.autoGather };
-
-  // Add or update the resource's gather rate
   if (updatedAutoGather[resource]) {
     updatedAutoGather[resource] += amount;
   } else {
     updatedAutoGather[resource] = amount;
   }
-
   return {
     autoGather: updatedAutoGather,
   };
 };
 
 const handleResourceBonusUpgrade = (state, resourceId, amount) => {
-  // Find the resource in the resourcesPool by ID
   const resource = state.resourcePool.find((res) => res.id === resourceId);
-
   if (!resource) {
     console.error(`Resource with ID ${resourceId} not found in resourcePool.`);
     return state; // No changes if the resource is invalid
   }
-
-  // Use the resource name as the key in resourceBonus
   const updatedResourceBonus = { ...state.resourceBonus };
-
   if (updatedResourceBonus[resource.id]) {
     updatedResourceBonus[resource.id] += amount;
   } else {
     updatedResourceBonus[resource.id] = amount;
   }
-
   return {
     resourceBonus: updatedResourceBonus,
   };
 };
-
-
 
 const useGameStore = create((set, get) => ({
 
@@ -88,7 +85,6 @@ const useGameStore = create((set, get) => ({
   recentlyUpdatedInventoryItem: null, // Tracks the last updated inventory item
 
   resetRecentlyUpdatedInventoryItem: () => set(() => ({ recentlyUpdatedInventoryItem: null })),
-
 
   /* XP Related Functions */
 
@@ -387,8 +383,8 @@ const useGameStore = create((set, get) => ({
     energy: Math.min(state.maxEnergy, state.energy + state.energyGain),
   })),
 
-  earnCurrency: () => set((state) => ({
-    currency: state.currency + state.currencyGain,
+  earnCurrency: () => set((state, amount) => ({
+    currency: state.currency + amount,
   })),
 
   sellItem: (itemName) => set((state) => {
