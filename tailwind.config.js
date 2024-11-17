@@ -11,6 +11,15 @@ module.exports = {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      animation: {
+        bounce: "bounce 1s ease-in-out",
+      },
+      keyframes: {
+        bounce: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+      },
       animationTimingFunction: {
         // Common easing functions
         'ease-linear': 'linear',

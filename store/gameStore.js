@@ -34,6 +34,10 @@ const useGameStore = create((set, get) => ({
   inventory: [],
   upgrades: [],
 
+  recentlyUpdatedInventoryItem: null, // Tracks the last updated inventory item
+  resetRecentlyUpdatedInventoryItem: () => set(() => ({ recentlyUpdatedInventoryItem: null })),
+
+
   /* XP Related Functions */
 
   gainExperience: (xp) => set((state) => {
@@ -177,16 +181,14 @@ const useGameStore = create((set, get) => ({
       return state;
     }
   
-    // Deduct required resources and remove any with zero quantity
-    const updatedResources = state.resources
-      .map((res) => {
-        const requirement = item.requirements.find((req) => req.item === res.name);
-        if (requirement) {
-          return { ...res, quantity: res.quantity - requirement.quantity };
-        }
-        return res;
-      })
-      .filter((res) => res.quantity > 0); // Remove resources with zero quantity
+    // Deduct required resources
+    const updatedResources = state.resources.map((res) => {
+      const requirement = item.requirements.find((req) => req.item === res.name);
+      if (requirement) {
+        return { ...res, quantity: res.quantity - requirement.quantity };
+      }
+      return res;
+    });
   
     // Add crafted item to inventory
     const updatedInventory = [...state.inventory];
@@ -206,6 +208,7 @@ const useGameStore = create((set, get) => ({
     return {
       resources: updatedResources,
       inventory: updatedInventory,
+      recentlyUpdatedInventoryItem: item.name, // Track the recently updated item
     };
   }),
   
