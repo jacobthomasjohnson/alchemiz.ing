@@ -28,17 +28,19 @@ body {
 
 @keyframes glowFade {
   0% {
-    background-color: rgba(104, 148, 83, 0.1);
+    background-color: rgba(112, 139, 86, 0.9);
+    color: #101010;
     opacity: 1;
   }
   100% {
-    background-color: rgba(119, 189, 87, 0);
+    background-color: rgba(112, 139, 86, 0);
+    color: inherit;
     opacity: 0;
   }
 }
 
 .animate-glow {
-  animation: glowFade 1s ease-out;
+  animation: glowFade 1s cubic-bezier(0.075, 0.82, 0.165, 1);
   pointer-events: none; /* Prevent interfering with clicks */
   position: absolute;
   inset: 0;

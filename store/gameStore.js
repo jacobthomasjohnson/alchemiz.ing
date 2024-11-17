@@ -181,7 +181,7 @@ const useGameStore = create((set) => ({
     if (inventoryItem) {
       inventoryItem.quantity += 1;
     } else {
-      updatedInventory.push({ name: item.name, quantity: 1 });
+      updatedInventory.push({ name: item.name, quantity: 1, cost: item.cost });
     }
 
     // Gain experience for crafting

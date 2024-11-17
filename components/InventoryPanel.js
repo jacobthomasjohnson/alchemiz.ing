@@ -19,14 +19,13 @@ export function InventoryPanel() {
       ) : (
         inventory.map((item) => {
 
-          // const craftedItem = inventory.find((item) => item.name === inventory.name);
-
           const itemName = item ? item.name : "Not an item";
 
           return (
             <ToolTip
               key={item.name}
-              tooltipText={`Sell ${itemName}`}
+              bgColor={`bg-[#708B56]`}
+              tooltipText={`Sell ${item.name} for $${item.cost}`}
             >
               <ListItem
                 onClick={() => sellItem(item.name)} // Use arrow function to pass the name
