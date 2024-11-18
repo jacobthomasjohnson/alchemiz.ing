@@ -268,7 +268,7 @@ const useGameStore = create((set, get) => ({
     if (resourceItem) {
         resourceItem.quantity += totalYield;
     } else {
-        updatedResources.push({ id: resource.id, quantity: totalYield });
+        updatedResources.push({ id: resource.id, name: resource.name, quantity: totalYield });
     }
 
     // Handle experience gain and level-up logic
@@ -351,7 +351,7 @@ checkRequiredResources: (itemId) => {
     if (inventoryItem) {
       inventoryItem.quantity += 1;
     } else {
-      updatedInventory.push({ id: item.id, quantity: 1, cost: item.cost });
+      updatedInventory.push({ id: item.id, name: item.name, quantity: 1, cost: item.cost });
     }
   
     // Gain experience for crafting

@@ -44,7 +44,7 @@ export function InventoryPanel() {
             <div key={item.name} className="relative">
               <ToolTip bgColor={`bg-[#708B56]`} tooltipText={`Sell ${item.name} for $${item.cost}`}>
                 <ListItem
-                  onClick={() => useGameStore.getState().sellItem(item.name)}
+                  onClick={() => useGameStore.getState().sellItem(item.id)}
                   text={item.name}
                   amount={item.quantity}
                 />

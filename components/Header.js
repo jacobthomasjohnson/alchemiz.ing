@@ -35,9 +35,9 @@ export function Header() {
         <div>
           <Image src="/pink-iso-potion.gif" width={48} height={48} alt="Potion Icon" />
         </div>
-        <div className="h-[32px] w-[1px] bg-[#212121]"></div>
+        <div className="h-[32px] w-[1px] bg-[#212121] header-left-spacer"></div>
         <div>ALCHEMIZ.ING</div>
-        <div className="h-[32px] w-[1px] bg-[#212121]"></div>
+        <div className="h-[32px] w-[1px] bg-[#212121] header-left-spacer"></div>
 
         {/* Currency Display */}
         <div className="font-mono relative">
@@ -56,12 +56,12 @@ export function Header() {
           ))}
         </div>
 
-        <div className="h-[32px] w-[1px] bg-[#212121]"></div>
+        <div className="h-[32px] w-[1px] bg-[#212121] header-left-spacer"></div>
 
         {/* Income rate */}
         <div className="font-mono lowercase">${incomeRate}/s</div>
 
-        <div className="h-[32px] w-[1px] bg-[#212121]"></div>
+        <div className="h-[32px] w-[1px] bg-[#212121] header-left-spacer"></div>
 
         LEVEL {currentLevel}
       </div>
