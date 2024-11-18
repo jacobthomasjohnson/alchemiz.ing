@@ -5,9 +5,10 @@ import useGameStore from "@/store/gameStore";
 import Image from "next/image";
 
 export function Header() {
-  const currency = useGameStore((state) => state.currency).toFixed(2);
+  const currency = useGameStore((state) => state.currency); // Keep as a number
   const incomeRate = useGameStore((state) => state.incomeRate).toFixed(2);
   const currentLevel = useGameStore((state) => state.level);
+  const currencyGained = useGameStore((state) => state.currencyGained);
 
   const [animationDivs, setAnimationDivs] = useState([]);
   const [prevCurrency, setPrevCurrency] = useState(currency);
@@ -15,16 +16,17 @@ export function Header() {
   useEffect(() => {
     if (currency > prevCurrency) {
       const animationId = `currency-${Date.now()}`;
+      const amountGained = (currency - prevCurrency).toFixed(2); // Correct calculation
       setAnimationDivs((prev) => [
         ...prev,
-        { id: animationId, amount: (currency - prevCurrency).toFixed(2) },
+        { id: animationId, amount: amountGained },
       ]);
 
       setTimeout(() => {
         setAnimationDivs((prev) => prev.filter((div) => div.id !== animationId));
-      }, 2000); // Match animation duration
+      }, 3000); // Match animation duration
     }
-    setPrevCurrency(currency);
+    setPrevCurrency(currency); // Update for next calculation
   }, [currency, prevCurrency]);
 
   return (
@@ -39,14 +41,18 @@ export function Header() {
 
         {/* Currency Display */}
         <div className="font-mono relative">
-          <span>${currency}</span>
+          <span>${currency.toFixed(2)}</span> {/* Format for display */}
 
           {/* Render animation divs */}
           {animationDivs.map((div) => (
             <div
               key={div.id}
-              className="absolute inset-0 pointer-events-none animate-currency-glow"
-            ></div>
+              className="absolute inset-0 pointer-events-none animate-currency-glow text-sm flex items-center justify-center"
+            >
+              <span className="flex items-center justify-center translate-y-[100%] animate-currency-value">
+                +${div.amount} {/* Correctly calculate and render gained amount */}
+              </span>
+            </div>
           ))}
         </div>
 

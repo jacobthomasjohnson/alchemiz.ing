@@ -58,20 +58,38 @@ body {
 
 @keyframes currency-glow {
   0% {
-    box-shadow: 0 0 10px rgba(140, 214, 226, 1);
+    width: 200%;
+    height: 200%;
     opacity: 100%;
-    transform: scale(0.5);
+    transform: translate(-25%, -25%);
+    background-color: rgba(112, 139, 86, 1);
+    border-radius: 3px;
   }
   100% {
-    box-shadow: 0 0 80px rgba(177, 40, 236, 0);
-    transform: scale(12);
-    opacity: 0;
+    width: 200%;
+    height: 200%;
+    opacity: 0%;
+    transform: translate(-25%, -25%);
+    background-color: rgba(112, 139, 86, 0);
+    border-radius: 3px;
+  }
+}
+
+@keyframes currency-value {
+  0% {
+    transform: translateY(-200%);
+    opacity: 100%;
+  }
+  100% {
+    transform: translateY(-250%);
+    opacity: 0%;
   }
 }
 
 .animate-currency-glow {
-  animation: currency-glow 2s cubic-bezier(0.075, 0.82, 0.165, 1);
-  background: rgba(255, 215, 0, 0.1);
-  border-radius: 50%;
-  filter: blur(1px);
+  animation: currency-glow 3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.animate-currency-value {
+  animation: currency-value 3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }

@@ -128,85 +128,83 @@ export const resourcePool = [
 ];
 
 export const xpRequirements = [
-  100,  // Level 1 to 2
-  250,  // Level 2 to 3
-  500,  // Level 3 to 4
-  1200,  // Level 4 to 5
-  2500,  // Level 5 to 6
+  100,
+  250,
+  500,
+  1200,
+  2500,
 ];
 
-// Optional function if using a dynamic calculation for fallback
-export const getXpForNextLevel = (level) => 100 + (level - 1) * 50;
+export const getXpForNextLevel = (level) => {
+  return 100 + (level - 1) * 50;
+}
 
-// Define crafting items and recipes
 export const inventoryPool = [
   {
     id: 1,
     name: 'Healing Salve',
     requirements: [{ item: 'Herbs', quantity: 3 }, { item: 'Water', quantity: 2 }],
     cost: 20,
-    requiredLevel: 1, // Herbs and Water are unlocked at level 1
+    requiredLevel: 1,
   },
   {
     id: 2,
     name: 'Antidote',
     requirements: [{ item: 'Herbs', quantity: 5 }, { item: 'Coal', quantity: 1 }],
     cost: 50,
-    requiredLevel: 2, // Coal is unlocked at level 2
+    requiredLevel: 2,
   },
   {
     id: 3,
     name: 'Minor Mana',
     requirements: [{ item: 'Mana Leaves', quantity: 2 }, { item: 'Water', quantity: 1 }],
     cost: 30,
-    requiredLevel: 5, // Mana Leaves are unlocked at level 5
+    requiredLevel: 5,
   },
   {
     id: 4,
     name: 'Great Healing Potion',
     requirements: [{ item: 'Herbs', quantity: 10 }, { item: 'Water', quantity: 8 }],
     cost: 100,
-    requiredLevel: 6, // Both Herbs and Water are available
+    requiredLevel: 6,
   },
   {
     id: 5,
     name: 'Vitality Tonic',
     requirements: [{ item: 'Mana Leaves', quantity: 5 }, { item: 'Crystal Shards', quantity: 3 }],
     cost: 150,
-    requiredLevel: 8, // Crystal Shards are unlocked at level 8
+    requiredLevel: 8,
   },
   {
     id: 6,
     name: 'Fire Scorch',
     requirements: [{ item: 'Lunar Essence', quantity: 5 }, { item: 'Herbs', quantity: 10 }],
     cost: 200,
-    requiredLevel: 11, // Lunar Essence is unlocked at level 11
+    requiredLevel: 11,
   },
   {
     id: 7,
     name: 'Elixir of Youth',
     requirements: [{ item: 'Sunlight Essence', quantity: 8 }, { item: 'Water', quantity: 15 }],
     cost: 300,
-    requiredLevel: 14, // Sunlight Essence is unlocked at level 14
+    requiredLevel: 14,
   },
   {
     id: 8,
     name: 'Elixir of Strength',
     requirements: [{ item: 'Dragon Root', quantity: 10 }, { item: 'Herbs', quantity: 20 }],
     cost: 500,
-    requiredLevel: 18, // Dragon Root is unlocked at level 18
+    requiredLevel: 18,
   },
   {
     id: 9,
     name: 'Elixir of Enlightenment',
     requirements: [{ item: 'Phoenix Feathers', quantity: 5 }, { item: 'Mana Leaves', quantity: 10 }],
     cost: 600,
-    requiredLevel: 21, // Phoenix Feathers are unlocked at level 21
+    requiredLevel: 21,
   },
 ];
 
-
-// Define upgrades that improve gathering or crafting abilities
 export const upgradesPool = [
   {
     id: 1,
@@ -214,7 +212,7 @@ export const upgradesPool = [
     description: 'Automatically gather herbs, slowly.',
     cost: 250,
     requiredLevel: 4,
-    effect: { autoGather: { resource: 2, amount: 0.5 } }, // Using resourceId for Herbs
+    effect: { autoGather: { resource: 2, amount: 0.5 } },
   },
   {
     id: 2,
@@ -222,7 +220,7 @@ export const upgradesPool = [
     description: 'Increases mana leaf gathering efficiency by 4 times. (One gather yields four Mana Leaves)',
     cost: 1500,
     requiredLevel: 7,
-    effect: { resourceBonus: { resource: 4, amount: 3 } }, // Add additional 3 in yield from resource gather
+    effect: { resourceBonus: { resource: 4, amount: 3 } },
   },
   {
     id: 3,
@@ -267,23 +265,12 @@ export const upgradesPool = [
 ];
 
 export const initialPlayerStats = {
-  currency: 0,
-  energy: 100,
-  level: 1,
-  experience: 0,
-  energyGain: 2,          // Amount of energy regained per time unit or action
-  currencyGain: 0,        // Amount of currency gained per action
-  incomeRate: 0,          // Base income rate in currency per second
+  currency: 0, // Starting currency
+  currencyGained: 0,
+  energy: 100, // Starting current energy
+  level: 1, // Starting level
+  experience: 0, // Starting XP
+  energyGain: 2,
+  currencyGain: 0,
+  incomeRate: 0,
 };
-
-
-// Player's initial stats
-// export const initialPlayerStats = {
-//   currency: 0,
-//   energy: 100,
-//   level: 1,
-//   experience: 0,
-//   energyGain: 2,          // Amount of energy regained per time unit or action
-//   currencyGain: 0,        // Amount of currency gained per action
-//   incomeRate: 0,          // Base income rate in currency per second
-// };

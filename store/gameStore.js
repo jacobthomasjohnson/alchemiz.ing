@@ -1,15 +1,9 @@
 import { create } from 'zustand';
-import { 
-  resources, 
-  availableResources, 
-  craftingItems, 
-  upgrades, 
-  upgradesPool, 
+
+import { upgradesPool, resourcePool, inventoryPool,  
   initialPlayerStats, 
   xpRequirements, 
   getXpForNextLevel, 
-  resourcePool, 
-  inventoryPool 
 } from '../gameData';
 
 const handleMaxEnergyUpgrade = (state, value) => {
@@ -52,6 +46,7 @@ const useGameStore = create((set, get) => ({
   /* Currency Related */
   currency: initialPlayerStats.currency,
   currencyGain: initialPlayerStats.currencyGain,
+  currencyGained: initialPlayerStats.currencyGained,
   incomeRate: initialPlayerStats.incomeRate,
   accumulatedCurrency: 0,
 
@@ -415,6 +410,7 @@ const useGameStore = create((set, get) => ({
     return {
       currency: state.currency + itemCost, // Add the item's cost to currency
       inventory: updatedInventory,
+      currencyGained: state.currencyGained,
     };
   }),
 

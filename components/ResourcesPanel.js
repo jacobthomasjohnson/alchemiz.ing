@@ -25,7 +25,7 @@ export function ResourcesPanel() {
       // Remove the animation div after it finishes
       setTimeout(() => {
         setAnimationDivs((prev) => prev.filter((div) => div.id !== animationId));
-      }, 1000); // Match animation duration
+      }, 4000); // Match animation duration
 
       // Clear the recently updated resource in Zustand
       clearRecentlyUpdatedResource();
