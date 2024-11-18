@@ -2,7 +2,7 @@ export const resourcePool = [
   {
     id: 1,
     name: 'Water',
-    energyCost: 15,
+    energyCost: 8,
     requiredLevel: 1,
     description: 'Essential for potion mixing.',
     xpGain: 10,
@@ -11,7 +11,7 @@ export const resourcePool = [
   {
     id: 2,
     name: 'Herbs',
-    energyCost: 20,
+    energyCost: 12,
     requiredLevel: 1,
     description: 'A basic ingredient for potions.',
     xpGain: 20,
@@ -20,7 +20,7 @@ export const resourcePool = [
   {
     id: 3,
     name: 'Coal',
-    energyCost: 50,
+    energyCost: 35,
     requiredLevel: 2,
     description: 'Used for heating brews.',
     xpGain: 53,
@@ -29,7 +29,7 @@ export const resourcePool = [
   {
     id: 4,
     name: 'Mana Leaves',
-    energyCost: 95,
+    energyCost: 50,
     requiredLevel: 5,
     description: 'Increases potency of magical potions.',
     xpGain: 194,
@@ -38,7 +38,7 @@ export const resourcePool = [
   {
     id: 5,
     name: 'Crystal Shards',
-    energyCost: 150,
+    energyCost: 80,
     requiredLevel: 8,
     description: 'A mystical resource for advanced potions.',
     xpGain: 400,
@@ -47,7 +47,7 @@ export const resourcePool = [
   {
     id: 6,
     name: 'Lunar Essence',
-    energyCost: 200,
+    energyCost: 100,
     requiredLevel: 11,
     description: 'Harnessed from the moon’s glow.',
     xpGain: 600,
@@ -65,7 +65,7 @@ export const resourcePool = [
   {
     id: 8,
     name: 'Dragon Root',
-    energyCost: 300,
+    energyCost: 280,
     requiredLevel: 18,
     description: 'A rare root with immense power.',
     xpGain: 1000,
@@ -138,7 +138,7 @@ export const inventoryPool = [
     id: 1,
     name: 'Healing Salve',
     requirements: [{ id: 2, quantity: 3 }, { id: 1, quantity: 2 }],
-    cost: 20,
+    cost: 25,
     requiredLevel: 1,
   },
   {
@@ -152,28 +152,28 @@ export const inventoryPool = [
     id: 3,
     name: 'Minor Mana',
     requirements: [{ id: 4, quantity: 2 }, { id: 1, quantity: 1 }],
-    cost: 30,
+    cost: 70,
     requiredLevel: 5,
   },
   {
     id: 4,
     name: 'Great Healing Potion',
     requirements: [{ id: 2, quantity: 10 }, { id: 1, quantity: 8 }],
-    cost: 100,
+    cost: 120,
     requiredLevel: 6,
   },
   {
     id: 5,
     name: 'Vitality Tonic',
     requirements: [{ id: 4, quantity: 5 }, { id: 5, quantity: 3 }],
-    cost: 150,
+    cost: 185,
     requiredLevel: 8,
   },
   {
     id: 6,
     name: 'Fire Scorch',
     requirements: [{ id: 6, quantity: 5 }, { id: 2, quantity: 10 }],
-    cost: 200,
+    cost: 260,
     requiredLevel: 11,
   },
   {
@@ -213,7 +213,7 @@ export const upgradesPool = [
     name: 'Mana Spring',
     description:
       'Increases mana leaf gathering efficiency by 4 times. (One gather yields four Mana Leaves)',
-    cost: 1500,
+    cost: 1200,
     requiredLevel: 7,
     effect: { resourceBonus: { resource: 4, amount: 3 } },
   },
@@ -221,8 +221,8 @@ export const upgradesPool = [
     id: 3,
     name: 'Max Energy I',
     description: 'Increases maximum energy by 100.',
-    cost: 2900,
-    requiredLevel: 13,
+    cost: 2700,
+    requiredLevel: 10,
     effect: { modifyMaxEnergy: 100 },
   },
   {
