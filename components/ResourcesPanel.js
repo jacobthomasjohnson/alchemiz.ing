@@ -35,7 +35,9 @@ export function ResourcesPanel() {
 
   return (
     <>
-      
+
+      <div className="grow max-h-[50%]">
+
       <SectionHeader
         title="Resources"
         icon="/resources.svg"
@@ -58,8 +60,6 @@ export function ResourcesPanel() {
               
               <ListItem text={resourcePool.find((res) => res.id === resource.id)?.name || "Unknown Resource"} amount={resource.quantity || 0} />
 
-              {console.log(availableResources)}
-
               {animationDivs.filter((div) => div.resourceId === resource.id).map((div) => (
                   
                 <div key={div.id} className="absolute z-10 inset-0 animate-glow pointer-events-none"></div>
@@ -73,6 +73,8 @@ export function ResourcesPanel() {
         </div>
 
       )}
+
+      </div>
 
     </>
   );
