@@ -141,7 +141,7 @@ const useGameStore = create((set, get) => ({
     }
   
     if (state.currency < upgrade.cost) {
-      console.warn(`Not enough currency to purchase ${upgrade.name}.`);
+      console.warn(`Not enough currency to purchase ${upgrade.id}.`);
       return state;
     }
   
@@ -178,13 +178,13 @@ const useGameStore = create((set, get) => ({
   }
 
   
-    console.log(`Applied upgrade: ${upgrade.name}`);
+    console.log(`Applied upgrade: ${upgrade.id}`);
     return newState;
   }),
   
 
 
-  setRecentlyUpdatedResource: (resourceName) => set(() => ({ recentlyUpdatedResource: resourceName, })),
+  setRecentlyUpdatedResource: (resourceId) => set(() => ({ recentlyUpdatedResource: resourceId, })),
 
   startResourceBonus: () => {
 
@@ -225,7 +225,7 @@ const useGameStore = create((set, get) => ({
           }
 
           // Trigger animation
-          useGameStore.getState().setRecentlyUpdatedResource(resource.name);
+          useGameStore.getState().setRecentlyUpdatedResource(resource.id);
         }
       });
 
@@ -243,16 +243,16 @@ const useGameStore = create((set, get) => ({
   },
 
 
-  gatherResource: (resourceName) => set((state) => {
-    const resource = state.resourcePool.find((res) => res.name === resourceName);
+  gatherResource: (resourceId) => set((state) => {
+    const resource = state.resourcePool.find((res) => res.id === resourceId);
 
     if (!resource) {
-        console.error("Resource not found:", resourceName);
+        console.error("Resource not found:", resourceId);
         return state; // No changes if the resource is invalid
     }
 
     if (state.energy < resource.energyCost) {
-        console.warn("Not enough energy to gather:", resourceName);
+        console.warn("Not enough energy to gather:", resourceId);
         return state; // No changes if energy is insufficient
     }
 
@@ -263,12 +263,12 @@ const useGameStore = create((set, get) => ({
 
     // Update the resource quantity or add it if not present
     const updatedResources = [...state.resources];
-    const resourceItem = updatedResources.find((item) => item.name === resource.name);
+    const resourceItem = updatedResources.find((item) => item.id === resource.id);
 
     if (resourceItem) {
         resourceItem.quantity += totalYield;
     } else {
-        updatedResources.push({ name: resource.name, quantity: totalYield });
+        updatedResources.push({ id: resource.id, quantity: totalYield });
     }
 
     // Handle experience gain and level-up logic
@@ -282,7 +282,7 @@ const useGameStore = create((set, get) => ({
         experienceForNextLevel = xpRequirements[newLevel - 1] || getXpForNextLevel(newLevel);
     }
 
-    console.log(`Gathered ${totalYield} of ${resourceName} (Base: ${baseYield}, Bonus: ${bonusYield})`);
+    console.log(`Gathered ${totalYield} of ${resourceId} (Base: ${baseYield}, Bonus: ${bonusYield})`);
 
     return {
         ...state,
@@ -291,76 +291,82 @@ const useGameStore = create((set, get) => ({
         experience: newExperience, // New experience after gathering
         level: newLevel, // Updated level
         xpToNextLevel: experienceForNextLevel, // Updated XP needed for next level
-        recentlyUpdatedResource: resource.name, // Track the updated resource
+        recentlyUpdatedResource: resource.id, // Track the updated resource
     };
 }),
 
 
 
-  checkRequiredResources: (itemName) => {
-    const state = get(); // Get the current state
-    const item = state.inventoryPool.find((item) => item.name === itemName);
+checkRequiredResources: (itemId) => {
+  const state = get(); // Get the current state
+  const item = state.inventoryPool.find((item) => item.id === itemId);
 
-    if (!item) return false; // Item not found
+  if (!item) return false; // Item not found
 
-    return item.requirements.every((req) => {
-      const resource = state.resources.find((res) => res.name === req.item);
-      return resource && resource.quantity >= req.quantity; // Check if sufficient resources exist
-    });
-  },
+  // Check all requirements
+  return item.requirements.every((req) => {
+    const resource = state.resources.find((res) => res.id === req.id); // Match by ID
+    return resource && resource.quantity >= req.quantity; // Check if sufficient resources exist
+  });
+},
 
 
 
-  craftItem: (itemName) => set((state) => {
-    const item = state.inventoryPool.find((res) => res.name === itemName);
+  craftItem: (itemId) => set((state) => {
+    const item = state.inventoryPool.find((res) => res.id === itemId);
     const xpFromCraftingMultiplier = state.xpFromCraftingMultiplier;
-
+  
     if (!item) {
       console.log("Item not found in inventoryPool");
       return state;
     }
-
+  
     // Check if player has enough resources for crafting
     const hasRequiredResources = item.requirements.every((req) => {
-      const resource = state.resources.find((res) => res.name === req.item);
+      const resource = state.resources.find((res) => res.id === req.id); // Match by ID
+      if (!resource || resource.quantity < req.quantity) {
+        console.log(`Missing resource: ${req.id} or insufficient quantity.`);
+      }
       return resource && resource.quantity >= req.quantity;
     });
-
+  
     if (!hasRequiredResources) {
-      console.log("Not enough resources to craft:", itemName);
+      console.log("Not enough resources to craft:", itemId);
       return state;
     }
-
+  
     // Deduct required resources
     const updatedResources = state.resources.map((res) => {
-      const requirement = item.requirements.find((req) => req.item === res.name);
+      const requirement = item.requirements.find((req) => req.id === res.id); // Match by ID
       if (requirement) {
         return { ...res, quantity: res.quantity - requirement.quantity };
       }
       return res;
     });
-
+  
     // Add crafted item to inventory
     const updatedInventory = [...state.inventory];
-    const inventoryItem = updatedInventory.find((invItem) => invItem.name === item.name);
-
+    const inventoryItem = updatedInventory.find((invItem) => invItem.id === item.id);
+  
     if (inventoryItem) {
       inventoryItem.quantity += 1;
     } else {
-      updatedInventory.push({ name: item.name, quantity: 1, cost: item.cost });
+      updatedInventory.push({ id: item.id, quantity: 1, cost: item.cost });
     }
-
+  
     // Gain experience for crafting
     const craftingXp = item.cost * xpFromCraftingMultiplier;
-    console.log(`Adding XP from crafting ${itemName}: ${craftingXp}`);
+    console.log(`Adding XP from crafting ${itemId}: ${craftingXp}`);
     useGameStore.getState().gainExperience(craftingXp);
-
+  
     return {
       resources: updatedResources,
       inventory: updatedInventory,
-      recentlyUpdatedInventoryItem: item.name, // Track the recently updated item
+      recentlyUpdatedInventoryItem: item.id, // Track the recently updated item
     };
   }),
+  
+  
 
 
 
@@ -382,13 +388,14 @@ const useGameStore = create((set, get) => ({
     currency: state.currency + amount,
   })),
 
-  sellItem: (itemName) => set((state) => {
-    const itemIndex = state.inventory.findIndex((item) => item.name === itemName);
-    const inventoryItem = state.inventoryPool.find((poolItem) => poolItem.name === itemName);
+  sellItem: (itemId) => set((state) => {
+
+    const itemIndex = state.inventory.findIndex((item) => item.id === itemId);
+    const inventoryItem = state.inventoryPool.find((poolItem) => poolItem.id === itemId);
     const xpFromSalesMultiplier = state.xpFromSalesMultiplier;
 
     if (itemIndex === -1 || !inventoryItem) {
-      console.log(`Item ${itemName} not found in inventory or inventoryPool.`);
+      console.log(`Item ${itemId} not found in inventory or inventoryPool.`);
       return state; // Item not found in either inventory or inventoryPool
     }
 
@@ -402,7 +409,7 @@ const useGameStore = create((set, get) => ({
       updatedInventory = updatedInventory.filter((_, idx) => idx !== itemIndex);
     }
 
-    console.log(`Sold 1 ${itemName} for ${itemCost} currency.`);
+    console.log(`Sold 1 ${itemId} for ${itemCost} currency.`);
 
     // Gain experience based on the item's cost and multiplier
     useGameStore.getState().gainExperience(itemCost * xpFromSalesMultiplier);

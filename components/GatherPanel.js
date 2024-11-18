@@ -17,11 +17,11 @@ export function GatherPanel() {
 
       const displayedResources = resourcePool.filter((resource) => resource.requiredLevel <= level);
 
-      const handleGatherResource = (resourceName) => {
-            const success = gatherResource(resourceName); // Call gatherResource and check result
+      const handleGatherResource = (resourceId) => {
+            const success = gatherResource(resourceId); // Call gatherResource and check result
             if (success) {
                   // Trigger animation if the gathering was successful
-                  useGameStore.getState().setRecentlyUpdatedResource(resourceName);
+                  useGameStore.getState().setRecentlyUpdatedResource(resourceId);
             }
       };
 
@@ -59,8 +59,8 @@ export function GatherPanel() {
                                     <p>No resources available for your level.</p>
                               ) : (
                                     displayedResources.map((resource) => (
-                                          <ToolTip key={resource.name} tooltipText={`Gather ${resource.name}`}>
-                                                <div onClick={() => handleGatherResource(resource.name)}>
+                                          <ToolTip key={resource.id} tooltipText={`Gather ${resource.name}`}>
+                                                <div onClick={() => handleGatherResource(resource.id)}>
                                                       <ListItem
                                                             text={resource.name}
                                                             amount={resource.energyCost || 0}

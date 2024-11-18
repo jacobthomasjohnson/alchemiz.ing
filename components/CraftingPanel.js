@@ -15,6 +15,7 @@ export function CraftingPanel() {
   const craftItem = useGameStore((state) => state.craftItem);
   const checkRequiredResources = useGameStore((state) => state.checkRequiredResources);
   const resources = useGameStore((state) => state.resources); // React to resource changes
+  const resourcePool = useGameStore((state) => state.resourcePool);
 
   // Filter crafting items by player level
   const displayedItems = inventoryPool.filter((item) => item.requiredLevel <= level);
@@ -50,30 +51,32 @@ export function CraftingPanel() {
         className="grow overflow-hidden"
       >
         <div className="grow overflow-auto">
-          {displayedItems.length === 0 ? (
-            <p className="px-8 py-4">No crafts are available at your level.</p>
-          ) : (
+          {
             displayedItems.map((item) => {
-              const canCraft = checkRequiredResources(item.name); // Dynamically check craftability
-
+              const canCraft = checkRequiredResources(item.id); // Pass item.id
+            
               return (
-                <ToolTip key={item.name} tooltipText={`Craft ${item.name}`} disabled={!canCraft ? true : false}>
+                <ToolTip
+                  key={item.id} // Use item.id as the key
+                  tooltipText={`Craft ${item.name}`}
+                  disabled={!canCraft}
+                >
                   <ListItem
-                    onClick={canCraft ? () => craftItem(item.name) : undefined} // Disable crafting if not craftable
+                    onClick={canCraft ? () => craftItem(item.id) : undefined} // Pass item.id to craftItem
                     columns={3}
                     value={item.cost}
                     amount={
                       item.requirements
-                        .map((req) => `${req.quantity}x ${req.item}`)
+                        .map((req) => `${req.quantity}x ${resourcePool.find((res) => res.id === req.id)?.name || 'Unknown'}`)
                         .join(" | ") || "No requirements"
-                    } // Display all requirements
+                    } // Display all requirements with resource names
                     text={item.name}
                     opacity={canCraft ? 1 : 0.1} // Adjust opacity dynamically
                   />
                 </ToolTip>
               );
             })
-          )}
+          }
         </div>
       </OverlayScrollbarsComponent>
     </div>

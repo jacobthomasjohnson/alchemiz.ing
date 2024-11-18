@@ -127,79 +127,73 @@ export const resourcePool = [
   },
 ];
 
-export const xpRequirements = [
-  100,
-  250,
-  500,
-  1200,
-  2500,
-];
+export const xpRequirements = [100, 250, 500, 1200, 2500];
 
 export const getXpForNextLevel = (level) => {
   return 100 + (level - 1) * 50;
-}
+};
 
 export const inventoryPool = [
   {
     id: 1,
     name: 'Healing Salve',
-    requirements: [{ item: 'Herbs', quantity: 3 }, { item: 'Water', quantity: 2 }],
+    requirements: [{ id: 2, quantity: 3 }, { id: 1, quantity: 2 }],
     cost: 20,
     requiredLevel: 1,
   },
   {
     id: 2,
     name: 'Antidote',
-    requirements: [{ item: 'Herbs', quantity: 5 }, { item: 'Coal', quantity: 1 }],
+    requirements: [{ id: 2, quantity: 5 }, { id: 3, quantity: 1 }],
     cost: 50,
     requiredLevel: 2,
   },
   {
     id: 3,
     name: 'Minor Mana',
-    requirements: [{ item: 'Mana Leaves', quantity: 2 }, { item: 'Water', quantity: 1 }],
+    requirements: [{ id: 4, quantity: 2 }, { id: 1, quantity: 1 }],
     cost: 30,
     requiredLevel: 5,
   },
   {
     id: 4,
     name: 'Great Healing Potion',
-    requirements: [{ item: 'Herbs', quantity: 10 }, { item: 'Water', quantity: 8 }],
+    requirements: [{ id: 2, quantity: 10 }, { id: 1, quantity: 8 }],
     cost: 100,
     requiredLevel: 6,
   },
   {
     id: 5,
     name: 'Vitality Tonic',
-    requirements: [{ item: 'Mana Leaves', quantity: 5 }, { item: 'Crystal Shards', quantity: 3 }],
+    requirements: [{ id: 4, quantity: 5 }, { id: 5, quantity: 3 }],
     cost: 150,
     requiredLevel: 8,
   },
   {
     id: 6,
     name: 'Fire Scorch',
-    requirements: [{ item: 'Lunar Essence', quantity: 5 }, { item: 'Herbs', quantity: 10 }],
+    requirements: [{ id: 6, quantity: 5 }, { id: 2, quantity: 10 }],
     cost: 200,
     requiredLevel: 11,
   },
   {
     id: 7,
     name: 'Elixir of Youth',
-    requirements: [{ item: 'Sunlight Essence', quantity: 8 }, { item: 'Water', quantity: 15 }],
+    requirements: [{ id: 7, quantity: 8 }, { id: 1, quantity: 15 }],
     cost: 300,
     requiredLevel: 14,
   },
   {
     id: 8,
     name: 'Elixir of Strength',
-    requirements: [{ item: 'Dragon Root', quantity: 10 }, { item: 'Herbs', quantity: 20 }],
+    requirements: [{ id: 8, quantity: 10 }, { id: 2, quantity: 20 }],
     cost: 500,
     requiredLevel: 18,
   },
   {
     id: 9,
     name: 'Elixir of Enlightenment',
-    requirements: [{ item: 'Phoenix Feathers', quantity: 5 }, { item: 'Mana Leaves', quantity: 10 }],
+    requirements: [{ id: 9, quantity: 5 }, { id: 4, quantity: 10 }],
     cost: 600,
     requiredLevel: 21,
   },
@@ -217,7 +211,8 @@ export const upgradesPool = [
   {
     id: 2,
     name: 'Mana Spring',
-    description: 'Increases mana leaf gathering efficiency by 4 times. (One gather yields four Mana Leaves)',
+    description:
+      'Increases mana leaf gathering efficiency by 4 times. (One gather yields four Mana Leaves)',
     cost: 1500,
     requiredLevel: 7,
     effect: { resourceBonus: { resource: 4, amount: 3 } },
@@ -236,7 +231,7 @@ export const upgradesPool = [
     description: 'Efficiently mine crystal shards.',
     cost: 3000,
     requiredLevel: 17,
-    effect: { autoGather: 'Crystal Shards' },
+    effect: { autoGather: { resource: 5, amount: 1 } },
   },
   {
     id: 5,
@@ -260,7 +255,7 @@ export const upgradesPool = [
     description: 'Enables gathering of Phoenix Feathers.',
     cost: 10000,
     requiredLevel: 27,
-    effect: { autoGather: 'Phoenix Feathers' },
+    effect: { autoGather: { resource: 9, amount: 1 } },
   },
 ];
 
