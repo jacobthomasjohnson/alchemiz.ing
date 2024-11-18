@@ -20,7 +20,7 @@ export function InventoryPanel() {
 
       setAnimationDivs((prev) => [
         ...prev,
-        { id: animationId, itemName: recentlyUpdatedInventoryItem },
+        { id: animationId, itemId: recentlyUpdatedInventoryItem },
       ]);
 
       // Remove the animation div after it finishes
@@ -41,7 +41,7 @@ export function InventoryPanel() {
       ) : (
         <div className="relative">
           {inventory.map((item) => (
-            <div key={item.name} className="relative">
+            <div key={item.id} className="relative">
               <ToolTip bgColor={`bg-[#708B56]`} tooltipText={`Sell ${item.name} for $${item.cost}`}>
                 <ListItem
                   onClick={() => useGameStore.getState().sellItem(item.id)}
@@ -51,7 +51,7 @@ export function InventoryPanel() {
               </ToolTip>
               {/* Render animation divs for this inventory item */}
               {animationDivs
-                .filter((div) => div.itemName === item.name)
+                .filter((div) => div.itemId === item.id)
                 .map((div) => (
                   <div
                     key={div.id}

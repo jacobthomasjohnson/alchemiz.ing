@@ -13,10 +13,6 @@ export const metadata = {
   description: "Become the Greatest Alchemist",
 };
 
-// git add .
-// git commit -m "Message"
-// git push
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -34,7 +30,6 @@ export default function RootLayout({ children }) {
           </div>
           <div className="h-[50px] min-h-[50px]" id="footer-space"></div>
         </div>
-
 
         {children}
 
