@@ -91,7 +91,7 @@ export const upgradesPool = [
             name: 'Coal Cart',
             description:
                   'Passively collect coal at a slow but useful rate.',
-            cost: 1400,
+            cost: 2200,
             requiredLevel: 10,
             effect: { autoGather: { resource: 3, amount: 0.5 } }
       }

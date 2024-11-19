@@ -59,7 +59,6 @@ body {
   transition: bottom 0.3s ease-in-out;
 }
 
-
 @keyframes currency-glow {
   0% {
     width: 200%;

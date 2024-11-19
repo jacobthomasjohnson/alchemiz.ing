@@ -12,7 +12,7 @@ const useDebugStore = create((set) => ({
         });
 
         // Optional: Clear the message after a timeout
-        setTimeout(() => set({ debugMessage: null }), 2000);
+        setTimeout(() => set({ debugMessage: null }), 4000);
     },
 }));
 

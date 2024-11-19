@@ -15,7 +15,7 @@ export function DebugMenu() {
         // Create a new div
         const debugDiv = document.createElement("div");
         debugDiv.textContent = debugMessage;
-        debugDiv.className = `debug-message mb-2 p-2 rounded transition-opacity duration-2000`;
+        debugDiv.className = `debug-message mb-2 p-1 rounded transition-opacity duration-4000`;
         
         let textColor = null;
 
@@ -29,7 +29,7 @@ export function DebugMenu() {
 
         debugDiv.style = `color: ${textColor}`;
 
-        debugDiv.style.animation = "fade-out 2s ease-out forwards";
+        debugDiv.style.animation = "fade-out 4s ease-out forwards";
 
         // Append the div to the container
         containerRef.current.appendChild(debugDiv);
@@ -37,7 +37,7 @@ export function DebugMenu() {
         // Remove the div after the animation ends
         const timer = setTimeout(() => {
             debugDiv.remove();
-        }, 2000); // Match the fade-out duration
+        }, 4000); // Match the fade-out duration
 
         // Cleanup timer
         return () => clearTimeout(timer);
