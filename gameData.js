@@ -1,271 +1,110 @@
-export const resourcePool = [
-  {
-    id: 1,
-    name: 'Water',
-    energyCost: 8,
-    requiredLevel: 1,
-    description: 'Essential for potion mixing.',
-    xpGain: 10,
-    yield: 1,
-  },
-  {
-    id: 2,
-    name: 'Herbs',
-    energyCost: 12,
-    requiredLevel: 1,
-    description: 'A basic ingredient for potions.',
-    xpGain: 20,
-    yield: 1,
-  },
-  {
-    id: 3,
-    name: 'Coal',
-    energyCost: 35,
-    requiredLevel: 2,
-    description: 'Used for heating brews.',
-    xpGain: 53,
-    yield: 1,
-  },
-  {
-    id: 4,
-    name: 'Mana Leaves',
-    energyCost: 50,
-    requiredLevel: 5,
-    description: 'Increases potency of magical potions.',
-    xpGain: 194,
-    yield: 1,
-  },
-  {
-    id: 5,
-    name: 'Crystal Shards',
-    energyCost: 80,
-    requiredLevel: 8,
-    description: 'A mystical resource for advanced potions.',
-    xpGain: 400,
-    yield: 1,
-  },
-  {
-    id: 6,
-    name: 'Lunar Essence',
-    energyCost: 100,
-    requiredLevel: 11,
-    description: 'Harnessed from the moon’s glow.',
-    xpGain: 600,
-    yield: 1,
-  },
-  {
-    id: 7,
-    name: 'Sunlight Essence',
-    energyCost: 250,
-    requiredLevel: 14,
-    description: 'Captured from pure sunlight.',
-    xpGain: 800,
-    yield: 1,
-  },
-  {
-    id: 8,
-    name: 'Dragon Root',
-    energyCost: 280,
-    requiredLevel: 18,
-    description: 'A rare root with immense power.',
-    xpGain: 1000,
-    yield: 1,
-  },
-  {
-    id: 9,
-    name: 'Phoenix Feathers',
-    energyCost: 400,
-    requiredLevel: 21,
-    description: 'Legendary feathers with regenerative properties.',
-    xpGain: 1200,
-    yield: 1,
-  },
-  {
-    id: 10,
-    name: 'Dark Crystals',
-    energyCost: 500,
-    requiredLevel: 24,
-    description: 'Crystals imbued with shadow energy.',
-    xpGain: 1400,
-    yield: 1,
-  },
-  {
-    id: 11,
-    name: 'Angel’s Tears',
-    energyCost: 600,
-    requiredLevel: 26,
-    description: 'A rare and divine liquid.',
-    xpGain: 1600,
-    yield: 1,
-  },
-  {
-    id: 12,
-    name: 'Shadow Essence',
-    energyCost: 750,
-    requiredLevel: 29,
-    description: 'Dark energy in its purest form.',
-    xpGain: 1800,
-    yield: 1,
-  },
-  {
-    id: 13,
-    name: 'Holy Water',
-    energyCost: 800,
-    requiredLevel: 33,
-    description: 'Water blessed with divine light.',
-    xpGain: 2000,
-    yield: 1,
-  },
-  {
-    id: 14,
-    name: 'Philosopher’s Stone Shards',
-    energyCost: 1000,
-    requiredLevel: 36,
-    description: 'Fragments of the legendary stone.',
-    xpGain: 2200,
-    yield: 1,
-  },
-];
-
-export const xpRequirements = [100, 250, 500, 1200, 2500];
+export const xpRequirements = [100, 150, 250, 400, 550, 800, 1000, 1300, 1600, 2200, 3000, 4000, 5800, 12000, 40000];
 
 export const getXpForNextLevel = (level) => {
-  return 100 + (level - 1) * 50;
+      return 100 + (level - 1) * 50;
 };
 
+export const resourcePool = [
+      {
+            id: 1,
+            name: 'Water',
+            energyCost: 15,
+            requiredLevel: 1,
+            description: 'Essential for potion mixing.',
+            xpGain: 10,
+            yield: 1,
+      },
+      {
+            id: 2,
+            name: "Herbs",
+            energyCost: 20,
+            requiredLevel: 4,
+            description: 'Good for basic potion making.',
+            xpGain: 15,
+            yield: 1,
+      },
+      {
+            id: 3,
+            name: "Coal",
+            energyCost: 25,
+            requiredLevel: 9,
+            description: 'A variety of uses including alchemical reactions.',
+            xpGain: 20,
+            yield: 1,
+      }
+];
+
 export const inventoryPool = [
-  {
-    id: 1,
-    name: 'Healing Salve',
-    requirements: [{ id: 2, quantity: 3 }, { id: 1, quantity: 2 }],
-    cost: 25,
-    requiredLevel: 1,
-  },
-  {
-    id: 2,
-    name: 'Antidote',
-    requirements: [{ id: 2, quantity: 5 }, { id: 3, quantity: 1 }],
-    cost: 50,
-    requiredLevel: 2,
-  },
-  {
-    id: 3,
-    name: 'Minor Mana',
-    requirements: [{ id: 4, quantity: 2 }, { id: 1, quantity: 1 }],
-    cost: 70,
-    requiredLevel: 5,
-  },
-  {
-    id: 4,
-    name: 'Great Healing Potion',
-    requirements: [{ id: 2, quantity: 10 }, { id: 1, quantity: 8 }],
-    cost: 120,
-    requiredLevel: 6,
-  },
-  {
-    id: 5,
-    name: 'Vitality Tonic',
-    requirements: [{ id: 4, quantity: 5 }, { id: 5, quantity: 3 }],
-    cost: 185,
-    requiredLevel: 8,
-  },
-  {
-    id: 6,
-    name: 'Fire Scorch',
-    requirements: [{ id: 6, quantity: 5 }, { id: 2, quantity: 10 }],
-    cost: 260,
-    requiredLevel: 11,
-  },
-  {
-    id: 7,
-    name: 'Elixir of Youth',
-    requirements: [{ id: 7, quantity: 8 }, { id: 1, quantity: 15 }],
-    cost: 300,
-    requiredLevel: 14,
-  },
-  {
-    id: 8,
-    name: 'Elixir of Strength',
-    requirements: [{ id: 8, quantity: 10 }, { id: 2, quantity: 20 }],
-    cost: 500,
-    requiredLevel: 18,
-  },
-  {
-    id: 9,
-    name: 'Elixir of Enlightenment',
-    requirements: [{ id: 9, quantity: 5 }, { id: 4, quantity: 10 }],
-    cost: 600,
-    requiredLevel: 21,
-  },
+      {
+            id: 1,
+            name: 'Water Ration',
+            requirements: [{ id: 1, quantity: 5 }],
+            cost: 20,
+            requiredLevel: 2,
+      },
+      {
+            id: 2,
+            name: 'Healing Salve',
+            requirements: [{ id: 1, quantity: 3 }, { id: 2, quantity: 6 }],
+            cost: 100,
+            requiredLevel: 4,
+      },
+      {
+            id: 3,
+            name: 'Black Ink',
+            requirements: [{ id: 1, quantity: 12 }, { id: 3, quantity: 6 }],
+            cost: 350,
+            requiredLevel: 9,
+      }
 ];
 
 export const upgradesPool = [
-  {
-    id: 1,
-    name: 'Herb Garden',
-    description: 'Automatically gather herbs, slowly.',
-    cost: 250,
-    requiredLevel: 4,
-    effect: { autoGather: { resource: 2, amount: 0.5 } },
-  },
-  {
-    id: 2,
-    name: 'Mana Spring',
-    description:
-      'Increases mana leaf gathering efficiency by 4 times. (One gather yields four Mana Leaves)',
-    cost: 1200,
-    requiredLevel: 7,
-    effect: { resourceBonus: { resource: 4, amount: 3 } },
-  },
-  {
-    id: 3,
-    name: 'Max Energy I',
-    description: 'Increases maximum energy by 100.',
-    cost: 2700,
-    requiredLevel: 10,
-    effect: { modifyMaxEnergy: 100 },
-  },
-  {
-    id: 4,
-    name: 'Crystal Mines',
-    description: 'Efficiently mine crystal shards.',
-    cost: 3000,
-    requiredLevel: 17,
-    effect: { autoGather: { resource: 5, amount: 1 } },
-  },
-  {
-    id: 5,
-    name: 'Distillation Apparatus',
-    description: 'Enhances potion crafting speed.',
-    cost: 5000,
-    requiredLevel: 13,
-    effect: { craftingSpeed: 1.2 },
-  },
-  {
-    id: 6,
-    name: 'Advanced Cauldron',
-    description: 'Improves crafting efficiency for potions.',
-    cost: 7500,
-    requiredLevel: 22,
-    effect: { craftingBonus: 1.3 },
-  },
-  {
-    id: 7,
-    name: 'Phoenix Aviary',
-    description: 'Enables gathering of Phoenix Feathers.',
-    cost: 10000,
-    requiredLevel: 27,
-    effect: { autoGather: { resource: 9, amount: 1 } },
-  },
+      {
+            id: 1,
+            name: 'Small Wooden Well',
+            description: 'Passively collect water at a slow but useful rate.',
+            cost: 200,
+            requiredLevel: 3,
+            effect: { autoGather: { resource: 1, amount: 0.5 } },
+      },
+      {
+            id: 2,
+            name: 'Replentish I',
+            description:
+                  'Increases rate of energy return by 1',
+            cost: 500,
+            requiredLevel: 5,
+            effect: { increaseEnergyGain: 1 },
+      },
+      {
+            id: 3,
+            name: 'Gardener I',
+            description:
+                  'Earn 4 extra herbs per gather.',
+            cost: 750,
+            requiredLevel: 7,
+            effect: { resourceBonus: { resource: 2, amount: 4 } }
+      },
+      {
+            id: 4,
+            name: 'Coal Cart',
+            description:
+                  'Passively collect coal at a slow but useful rate.',
+            cost: 1400,
+            requiredLevel: 10,
+            effect: { autoGather: { resource: 3, amount: 0.5 } }
+      }
+      
+      
 ];
 
 export const initialPlayerStats = {
-  currency: 0, // Starting currency
-  currencyGained: 0,
-  energy: 100, // Starting current energy
-  level: 1, // Starting level
-  experience: 0, // Starting XP
-  energyGain: 2,
-  currencyGain: 0,
-  incomeRate: 0,
+      currency: 0, // Starting currency
+      currencyGained: 0,
+      energy: 100, // Starting current energy
+      level: 1, // Starting level
+      experience: 0, // Starting XP
+      energyGain: 1,
+      currencyGain: 0,
+      incomeRate: 0,
 };
