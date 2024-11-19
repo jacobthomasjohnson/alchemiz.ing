@@ -55,6 +55,10 @@ body {
 .os-scrollbar-thumb:hover {
   background: #4A5E5D; /* Thumb hover color */
 }
+.debug-message {
+  transition: bottom 0.3s ease-in-out;
+}
+
 
 @keyframes currency-glow {
   0% {
@@ -94,7 +98,14 @@ body {
   animation: currency-value 3s cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 
-
+@keyframes fade-out {
+  from {
+      opacity: 1;
+  }
+  to {
+      opacity: 0;
+  }
+}
 
 /* Phone */
 @media only screen and (max-width: 599px) {

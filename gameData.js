@@ -1,8 +1,9 @@
-export const xpRequirements = [100, 150, 250, 400, 550, 800, 1000, 1300, 1600, 2200, 3000, 4000, 5800, 12000, 40000];
+export const xpRequirements = [100, 150, 250, 400, 550, 800, 1000, 1500, 2500, 4000, 6000];
 
 export const getXpForNextLevel = (level) => {
-      return 100 + (level - 1) * 50;
-};
+      return xpRequirements[level - 1] || Math.floor(100 * Math.pow(level, 1.5));
+  };
+  
 
 export const resourcePool = [
       {

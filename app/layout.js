@@ -6,6 +6,8 @@ import { LeftPanel } from "@/components/LeftPanel";
 import { CenterPanel } from "@/components/CenterPanel";
 import { RightPanel } from "@/components/RightPanel";
 
+import { DebugMenu } from "@/components/DebugMenu";
+
 import { InitGame } from "@/components/InitGame";
 
 export const metadata = {
@@ -32,6 +34,8 @@ export default function RootLayout({ children }) {
         </div>
 
         {children}
+
+        <DebugMenu />
 
       </body>
     </html>

@@ -2,10 +2,11 @@ import React from 'react';
 import useGameStore from '../store/gameStore';
 
 export function LevelBar() {
+
   const experience = useGameStore((state) => state.experience);
+  const level = useGameStore((state) => state.level);
   const xpToNextLevel = useGameStore((state) => state.xpToNextLevel);
 
-  // Calculate progress percentage for the level bar
   const levelProgress = (experience / xpToNextLevel) * 100;
 
   return (
@@ -20,6 +21,8 @@ export function LevelBar() {
             style={{ width: `${levelProgress}%` }}
           ></div>
         </div>
+        Experience: {experience}<br />
+        XP To Next Level: {xpToNextLevel}
       </div>
     </div>
   );
