@@ -28,7 +28,7 @@ export const resourcePool = [
             id: 3,
             name: "Coal",
             energyCost: 25,
-            requiredLevel: 9,
+            requiredLevel: 8,
             description: 'A variety of uses including alchemical reactions.',
             xpGain: 20,
             yield: 1,
@@ -62,7 +62,14 @@ export const inventoryPool = [
             name: 'Fuel Package',
             requirements: [{ id: 3, quantity: 20 }],
             cost: 200,
-            requiredLevel: 11,
+            requiredLevel: 8,
+      },
+      {
+            id: 5,
+            name: 'Minor Healing Ration',
+            requirements: [{ id: 2, quantity: 10 }],
+            cost: 180,
+            requiredLevel: 10,
       }
 ];
 
@@ -73,7 +80,7 @@ export const upgradesPool = [
             description: 'Passively collect water at a slow but useful rate.',
             cost: 200,
             requiredLevel: 3,
-            effect: { autoGather: { resource: 1, amount: 0.5 } },
+            effect: { autoGather: { resource: 1, amount: 1 } },
       },
       {
             id: 2,
@@ -110,16 +117,60 @@ export const upgradesPool = [
             cost: 2200,
             requiredLevel: 11,
             effect: { autoGather: { resource: 3, amount: 0.5 } }
+      },
+      {
+            id: 6,
+            name: 'Water Efficiency I',
+            description:
+                  'Increase water gather quantity by 4.',
+            cost: 3250,
+            requiredLevel: 12,
+            effect: { resourceBonus: { resource: 1, amount: 4 } },
+      },
+      {
+            id: 6,
+            name: 'Max Energy I',
+            description:
+                  'Increase your maximum energy by 100.',
+            cost: 4000,
+            requiredLevel: 12,
+            effect: { modifyMaxEnergy: 100 },
+      },
+      {
+            id: 7,
+            name: 'Replentish II',
+            description:
+                  'Increases rate of energy return by 1.',
+            cost: 5000,
+            requiredLevel: 13,
+            effect: { increaseEnergyGain: 1 },
+      },
+      {
+            id: 7,
+            name: 'Iron Well',
+            description:
+                  'Passively collect water at a fast inteval.',
+            cost: 6500,
+            requiredLevel: 13,
+            effect: { autoGather: { resource: 1, amount: 2 } }
+      },
+      {
+            id: 8,
+            name: 'Hire Apprentice I',
+            description:
+                  'Hire an apprentice who collects currency in unknown ways.',
+            cost: 8000,
+            requiredLevel: 14,
+            effect: { incomeRateIncrease: 5000 },
       }
-      
       
 ];
 
 export const initialPlayerStats = {
-      currency: 0, // Starting currency
+      currency: 12555, // Starting currency
       currencyGained: 0,
       energy: 100, // Starting current energy
-      level: 1, // Starting level
+      level: 13, // Starting level
       experience: 0, // Starting XP
       energyGain: 1,
       currencyGain: 0,

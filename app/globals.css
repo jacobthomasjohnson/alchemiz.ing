@@ -25,6 +25,7 @@ body {
   background: var(--background);
   font-family: "Kantumruy Pro", Helvetica, sans-serif;
   height: 100%;
+  /* transition: background-color 1s linear; */
 }
 
 @keyframes glowFade {

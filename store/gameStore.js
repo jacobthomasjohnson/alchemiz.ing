@@ -32,13 +32,14 @@ const useGameStore = create((set, get) => ({
       xpFromSalesMultiplier: 1,
       xpFromCraftingMultiplier: 1,
 
-      defaultSalesMultiplier: 0.25,
+      defaultSalesMultiplier: 0.75,
 
       /* Inventorys, Current Active Upgrades */
       resources: [],
       inventory: [],
       upgrades: [],
 
+      gatherTimers: {},
       fractionalGather: {}, // Keeps track of fractional auto-gather progress
       autoGather: {}, // Tracks resources and their gather rates
       resourceBonus: {}, // Keeps track of resource gather bonuses
@@ -57,24 +58,46 @@ const useGameStore = create((set, get) => ({
             let newLevel = state.level;
             let experienceForNextLevel = state.xpToNextLevel;
             useDebugStore.getState().setDebugMessage(`Gained ${totalXp} XP`, 'green');
+
+            // // Function to calculate the background color based on level
+            // const calculateBackgroundColor = (level, maxLevel) => {
+            //       const interpolate = (start, end, factor) => start + (end - start) * factor;
+            //       const factor = (level - 1) / (maxLevel - 1); // Normalize level to range [0, 1]
+            //       const startColor = { r: 16, g: 16, b: 16 }; // #101010
+            //       const endColor = { r: 28, g: 30, b: 32 }; // #B7B7B7
+            //       const r = Math.round(interpolate(startColor.r, endColor.r, factor));
+            //       const g = Math.round(interpolate(startColor.g, endColor.g, factor));
+            //       const b = Math.round(interpolate(startColor.b, endColor.b, factor));
+            //       return `rgb(${r}, ${g}, ${b})`;
+            // };
+
             // Level-up logic
             while (newExperience >= experienceForNextLevel) {
                   newExperience -= experienceForNextLevel;
                   newLevel += 1;
                   experienceForNextLevel = getXpForNextLevel(newLevel);
             }
+
             const levelChanged = state.level !== newLevel;
+
             if (levelChanged) {
+                  // Update background color for the new level
+                  // const newBackgroundColor = calculateBackgroundColor(newLevel, 16);
+                  // document.body.style.backgroundColor = newBackgroundColor; // Apply new background color
+
+                  // Debug message for leveling up
                   setTimeout(() => {
                         useDebugStore.getState().setDebugMessage(`Leveled up! Now level ${newLevel}`, 'blue');
                   }, 0);
             }
+
             return {
                   experience: newExperience,
                   level: newLevel,
                   xpToNextLevel: experienceForNextLevel,
             };
       }),
+
 
       setXpFromSalesMultiplier: (multiplier) => set(() => ({
             xpFromSalesMultiplier: multiplier,
@@ -104,7 +127,7 @@ const useGameStore = create((set, get) => ({
             });
             setTimeout(() => {
                   useGameStore.getState().increaseCurrency(); // Recursively call itself every 0.01 second
-            }, 10);
+            }, 1000);
       },
 
       applyUpgrade: (upgradeId) => set((state) => {
@@ -117,10 +140,8 @@ const useGameStore = create((set, get) => ({
                   console.warn(`Not enough currency to purchase ${upgrade.id}.`);
                   return state;
             }
-            // Deduct currency and add to purchased upgrades
             const updatedCurrency = state.currency - upgrade.cost;
             const updatedUpgrades = [...state.upgrades, upgradeId];
-            // Remove the purchased upgrade from upgradesPool
             const updatedUpgradesPool = state.upgradesPool.filter((u) => u.id !== upgradeId);
             let newState = {
                   ...state,
@@ -134,74 +155,87 @@ const useGameStore = create((set, get) => ({
             if (upgrade.effect?.increaseEnergyGain) {
                   newState = { ...newState, ...handleIncreaseEnergyGainUpgrade(newState, upgrade.effect.increaseEnergyGain) };
             }
+            // Handle the auto-gather effect
             if (upgrade.effect?.autoGather) {
                   const { resource, amount } = upgrade.effect.autoGather;
-                  newState = { ...newState, ...handleAutoGatherUpgrade(newState, resource, amount) };
-                  useGameStore.getState().startAutoGather(); // Start auto-gather process
+                  useGameStore.getState().startAutoGather(resource, amount);
             }
             if (upgrade.effect?.resourceBonus) {
                   const { resource, amount } = upgrade.effect.resourceBonus;
                   newState = { ...newState, ...handleResourceBonusUpgrade(newState, resource, amount) };
             }
+            if (upgrade.effect?.incomeRateIncrease) {
+                  newState = { ...newState, ...handleIncomeRateIncrease(newState, upgrade.effect.incomeRateIncrease) };
+            }
             useDebugStore.getState().setDebugMessage(`Applied upgrade: ${upgrade.name}`, 'blue');
             return newState;
       }),
 
-      startAutoGather: () => {
-            setInterval(() => {
+      startAutoGather: (resourceId, rate) => {
+            const state = get();
+
+            if (state.gatherTimers[resourceId]) {
+                  console.warn(`Auto-gather for ${resourceId} is already running.`);
+                  return;
+            }
+
+            const timer = setInterval(() => {
                   const state = get();
-                  const { autoGather, resources } = state;
-                  let updatedResources = [...resources];
-                  let fractionalGather = { ...state.fractionalGather }; // Track fractional amounts separately
-                  Object.entries(autoGather).forEach(([resourceId, rate]) => {
-                        const resource = state.resourcePool.find((res) => res.id === parseInt(resourceId, 10));
-                        if (!resource) {
-                              console.warn(`Resource with ID ${resourceId} not found in resourcePool.`);
-                              return;
-                        }
-                        if (Number.isInteger(rate)) {
-                              // If the rate is an integer, directly add it to the resource quantity
-                              const existingResource = updatedResources.find((res) => res.id === resource.id);
-                              if (existingResource) {
-                                    existingResource.quantity += rate;
-                              } else {
-                                    updatedResources.push({ id: resource.id, name: resource.name, quantity: rate });
-                              }
-                              // Trigger animation
-                              useGameStore.getState().setRecentlyUpdatedResource(resource.id);
+                  const updatedResources = [...state.resources];
+                  const fractionalGather = { ...state.fractionalGather };
+
+                  // Find the resource in the resource pool
+                  const resource = state.resourcePool.find((res) => res.id === resourceId);
+                  if (!resource) {
+                        console.error(`Resource with ID ${resourceId} not found.`);
+                        clearInterval(state.gatherTimers[resourceId]);
+                        const updatedTimers = { ...state.gatherTimers };
+                        delete updatedTimers[resourceId];
+                        set({ gatherTimers: updatedTimers });
+                        return;
+                  }
+
+                  // Accumulate fractional gathering
+                  fractionalGather[resourceId] = (fractionalGather[resourceId] || 0) + rate;
+
+                  // If a whole unit is gathered
+                  if (fractionalGather[resourceId] >= 1) {
+                        const wholeUnits = Math.floor(fractionalGather[resourceId]);
+                        fractionalGather[resourceId] %= 1; // Retain the fractional remainder
+
+                        // Update the resource in the player's resources
+                        const resourceItem = updatedResources.find((res) => res.id === resource.id);
+                        if (resourceItem) {
+                              resourceItem.quantity += wholeUnits;
                         } else {
-                              // Accumulate fractional gather
-                              if (!fractionalGather[resourceId]) {
-                                    fractionalGather[resourceId] = 0;
-                              }
-                              fractionalGather[resourceId] += rate;
-                              // If a full resource is gathered
-                              if (fractionalGather[resourceId] >= 1) {
-                                    const wholeUnits = Math.floor(fractionalGather[resourceId]);
-                                    fractionalGather[resourceId] %= 1; // Retain only the fractional part
-                                    // Update resources
-                                    const existingResource = updatedResources.find((res) => res.id === resource.id);
-                                    if (existingResource) {
-                                          existingResource.quantity += wholeUnits;
-                                    } else {
-                                          updatedResources.push({ id: resource.id, name: resource.name, quantity: wholeUnits });
-                                    }
-                                    // Trigger animation
-                                    useGameStore.getState().setRecentlyUpdatedResource(resource.id);
-                              }
+                              updatedResources.push({ id: resource.id, name: resource.name, quantity: wholeUnits });
                         }
-                  });
+
+                        useGameStore.getState().setRecentlyUpdatedResource(resource.id);
+                  }
+
+                  // Update the state
                   set({ resources: updatedResources, fractionalGather });
-            }, 1000); // Run every second
+            }, 1000); // 1 second interval
+
+            set((state) => ({
+                  gatherTimers: { ...state.gatherTimers, [resourceId]: timer },
+            }));
       },
 
-      stopAutoGather: () => {
+
+      stopAutoGather: (resourceId) => {
             const state = get();
-            if (state.gatherInterval) {
-                  clearInterval(state.gatherInterval);
-                  set({ gatherInterval: null });
+            if (state.gatherTimers[resourceId]) {
+                  clearInterval(state.gatherTimers[resourceId]);
+                  const updatedTimers = { ...state.gatherTimers };
+                  delete updatedTimers[resourceId];
+                  const updatedFractionalGather = { ...state.fractionalGather };
+                  delete updatedFractionalGather[resourceId];
+                  set({ gatherTimers: updatedTimers, fractionalGather: updatedFractionalGather });
             }
       },
+
 
       gatherResource: (resourceId) => set((state) => {
             const resource = state.resourcePool.find((res) => res.id === resourceId);
@@ -385,6 +419,12 @@ const handleResourceBonusUpgrade = (state, resourceId, amount) => {
       }
       return {
             resourceBonus: updatedResourceBonus,
+      };
+};
+
+const handleIncomeRateIncrease = (state, amount) => {
+      return {
+            incomeRate: state.incomeRate + amount,
       };
 };
 
