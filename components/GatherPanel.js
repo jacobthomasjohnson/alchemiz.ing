@@ -70,20 +70,19 @@ export function GatherPanel() {
             <p>No resources available for your level.</p>
           ) : (
             displayedResources.map((resource) => {
-              const isNew = newResources.includes(resource.id);
+              let starter = false;
+              if(resource.id === 1) {
+                starter = "true";
+              }
               return (
                 <ToolTip key={resource.id} tooltipText={`Gather ${resource.name}`}>
                   <div
                     id={`resource-${resource.id}`}
-                    className={`relative ${isNew ? "unlocked" : ""}`}
-                    onAnimationEnd={() =>
-                      setNewResources((prev) =>
-                        prev.filter((id) => id !== resource.id)
-                      )
-                    }
+                    className={`relative`}
                     onClick={() => handleGatherResource(resource.id)}
                   >
                     <ListItem
+                      unlockable={`${starter}`}
                       text={resource.name}
                       amount={resource.energyCost || 0}
                     />

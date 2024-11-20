@@ -14,6 +14,7 @@ export const resourcePool = [
             description: 'Essential for potion mixing.',
             xpGain: 100,
             yield: 1,
+            unlocked: true,
       },
       {
             id: 2,
@@ -23,6 +24,7 @@ export const resourcePool = [
             description: 'Good for basic potion making.',
             xpGain: 15,
             yield: 1,
+            unlocked: false,
       },
       {
             id: 3,
@@ -32,6 +34,7 @@ export const resourcePool = [
             description: 'A variety of uses including alchemical reactions.',
             xpGain: 20,
             yield: 1,
+            unlocked: false,
       }
 ];
 
@@ -42,6 +45,7 @@ export const inventoryPool = [
             requirements: [{ id: 1, quantity: 5 }],
             cost: 20,
             requiredLevel: 2,
+            unlocked: false,
       },
       {
             id: 2,
@@ -49,6 +53,7 @@ export const inventoryPool = [
             requirements: [{ id: 1, quantity: 3 }, { id: 2, quantity: 6 }],
             cost: 100,
             requiredLevel: 4,
+            unlocked: false,
       },
       {
             id: 3,
@@ -56,6 +61,7 @@ export const inventoryPool = [
             requirements: [{ id: 1, quantity: 12 }, { id: 3, quantity: 6 }],
             cost: 350,
             requiredLevel: 9,
+            unlocked: false,
       },
       {
             id: 4,
@@ -63,6 +69,7 @@ export const inventoryPool = [
             requirements: [{ id: 3, quantity: 20 }],
             cost: 200,
             requiredLevel: 8,
+            unlocked: false,
       },
       {
             id: 5,
@@ -70,6 +77,7 @@ export const inventoryPool = [
             requirements: [{ id: 2, quantity: 10 }],
             cost: 180,
             requiredLevel: 10,
+            unlocked: false,
       }
 ];
 
@@ -81,6 +89,7 @@ export const upgradesPool = [
             cost: 200,
             requiredLevel: 3,
             effect: { autoGather: { resource: 1, amount: 1 } },
+            unlocked: false,
       },
       {
             id: 2,
@@ -90,6 +99,7 @@ export const upgradesPool = [
             cost: 500,
             requiredLevel: 5,
             effect: { increaseEnergyGain: 1 },
+            unlocked: false,
       },
       {
             id: 3,
@@ -98,7 +108,8 @@ export const upgradesPool = [
                   'Earn 2 extra herbs per gather.',
             cost: 750,
             requiredLevel: 7,
-            effect: { resourceBonus: { resource: 2, amount: 2 } }
+            effect: { resourceBonus: { resource: 2, amount: 2 } },
+            unlocked: false,
       },
       {
             id: 4,
@@ -107,7 +118,8 @@ export const upgradesPool = [
                   'Hire a Garden Keep to bring you herbs.',
             cost: 2000,
             requiredLevel: 9,
-            effect: { autoGather: { resource: 2, amount: 0.5 } }
+            effect: { autoGather: { resource: 2, amount: 0.5 } },
+            unlocked: false,
       },
       {
             id: 5,
@@ -116,7 +128,8 @@ export const upgradesPool = [
                   'Passively collect coal at a slow but useful rate.',
             cost: 2200,
             requiredLevel: 11,
-            effect: { autoGather: { resource: 3, amount: 0.5 } }
+            effect: { autoGather: { resource: 3, amount: 0.5 } },
+            unlocked: false,
       },
       {
             id: 6,
@@ -126,6 +139,7 @@ export const upgradesPool = [
             cost: 3250,
             requiredLevel: 12,
             effect: { resourceBonus: { resource: 1, amount: 4 } },
+            unlocked: false,
       },
       {
             id: 6,
@@ -135,6 +149,7 @@ export const upgradesPool = [
             cost: 4000,
             requiredLevel: 12,
             effect: { modifyMaxEnergy: 100 },
+            unlocked: false,
       },
       {
             id: 7,
@@ -144,6 +159,7 @@ export const upgradesPool = [
             cost: 5000,
             requiredLevel: 13,
             effect: { increaseEnergyGain: 1 },
+            unlocked: false,
       },
       {
             id: 7,
@@ -152,7 +168,8 @@ export const upgradesPool = [
                   'Passively collect water at a fast inteval.',
             cost: 6500,
             requiredLevel: 13,
-            effect: { autoGather: { resource: 1, amount: 2 } }
+            effect: { autoGather: { resource: 1, amount: 2 } },
+            unlocked: false,
       },
       {
             id: 8,
@@ -162,6 +179,7 @@ export const upgradesPool = [
             cost: 8000,
             requiredLevel: 14,
             effect: { incomeRateIncrease: 5000 },
+            unlocked: false,
       }
       
 ];

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-spring/web": "^9.7.5",
     "next": "^14.2.18",
     "overlayscrollbars": "^2.10.0",
     "overlayscrollbars-react": "^0.5.6",

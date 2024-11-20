@@ -1,9 +1,9 @@
 "use client";
 
-export function ListItem({ text, value = null, opacity, amount, onClick, columns = 2 }) {
+export function ListItem({ unlockable, text, value = null, opacity, amount, onClick, columns = 2 }) {
   return (
     <div
-      className="p-6 py-4 transition-opacity ease-out w-full flex border-b border-[#212121] hover:bg-[#161616] hover:cursor-pointer unlocked"
+      className={`p-6 py-4 transition-opacity ease-out w-full flex border-b border-[#212121] hover:bg-[#161616] hover:cursor-pointer ${unlockable === true ? 'unlocked' : ''}`}
       onClick={onClick}
       style={{ opacity }} // Apply dynamic opacity
     >

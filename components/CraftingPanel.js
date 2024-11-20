@@ -18,16 +18,10 @@ export function CraftingPanel() {
   const resources = useGameStore((state) => state.resources); // React to resource changes
   const resourcePool = useGameStore((state) => state.resourcePool);
 
-  const [newItems, setNewItems] = useState([]); // Track new items
-
   // Filter crafting items by player level
   const displayedItems = inventoryPool.filter((item) => item.requiredLevel <= level);
 
-  // Track newly unlocked items
-  useEffect(() => {
-    const unlockedItems = displayedItems.filter((item) => item.requiredLevel === level);
-    setNewItems(unlockedItems.map((item) => item.id)); // Track new item IDs
-  }, [level, displayedItems]);
+
 
   return (
     <div className="flex flex-col grow bg-[#131313] rounded-xl rounded-tr-none rounded-tl-none overflow-hidden">
@@ -62,7 +56,6 @@ export function CraftingPanel() {
         <div className="grow overflow-auto">
           {displayedItems.map((item) => {
             const canCraft = checkRequiredResources(item.id); // Pass item.id
-            const isNew = newItems.includes(item.id); // Check if item is new
             
             return (
               <ToolTip
@@ -72,12 +65,10 @@ export function CraftingPanel() {
               >
                 <div
                   id={`craft-${item.id}`}
-                  className={`relative ${isNew ? "unlocked" : ""}`}
-                  onAnimationEnd={() =>
-                    setNewItems((prev) => prev.filter((id) => id !== item.id))
-                  }
+                  className={`relative`}
                 >
                   <ListItem
+                    unlockable={true}
                     onClick={canCraft ? () => craftItem(item.id) : undefined} // Pass item.id to craftItem
                     columns={3}
                     value={item.cost}

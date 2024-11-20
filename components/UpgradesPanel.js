@@ -26,6 +26,7 @@ export function UpgradesPanel() {
                         bgColor={'bg-[#4A5E5D]'}
                     >
                         <ListItem 
+                            unlockable="true"
                             key={upgrade.id} 
                             text={upgrade.name} 
                             amount={`$` + upgrade.cost}

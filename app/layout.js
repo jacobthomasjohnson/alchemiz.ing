@@ -20,6 +20,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <link rel="icon" href="/favicon.png" type="image/png" />
       <body className="text-sm uppercase w-full h-full">
+      {children}
         <div className="h-full w-full flex flex-col overflow-hidden" id="whole-page">
           <InitGame />
           <Header />
@@ -32,9 +33,6 @@ export default function RootLayout({ children }) {
           </div>
           <div className="h-[50px] min-h-[50px]" id="footer-space"></div>
         </div>
-
-        {children}
-
       </body>
     </html>
   );

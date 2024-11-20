@@ -30,29 +30,41 @@ body {
 
 @keyframes unlockAnim {
   0% {
-    background-color: #283437;
+    background-color: rgba(255, 255, 255, 1);
+    color: #000000;
     opacity: 100%;
-    transform: scale(1);
+  }
+  85% {
+    background-color: rgba(255, 255, 255, 1);
+    color: #000000;
+    opacity: 100%;
+  }
+  99% {
+    background-color: rgba(255, 255, 255, 0);
+    color: #000000;
+    opacity: 0%;
   }
   100% {
-    opacity: 0%;
-    transform: scale(2);
-
+    display: none;
   }
 }
 
 .unlocked::after {
-  content: '';
+  content: 'UNLOCKED';
+
   z-index: 10;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   pointer-events: none;
-  animation: unlockAnim 3s cubic-bezier(0.075, 0.82, 0.165, 1);
+  animation: unlockAnim 2s ease;
   animation-iteration-count: 1;
+  animation-fill-mode: forwards;
 }
 
 @keyframes glowFade {

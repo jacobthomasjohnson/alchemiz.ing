@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import useGameStore from "@/store/gameStore";
 import Image from "next/image";
+import HeaderLink from "./HeaderLink";
 
 export function Header() {
   const currency = useGameStore((state) => state.currency); // Keep as a number
@@ -30,7 +31,7 @@ export function Header() {
   }, [currency, prevCurrency]);
 
   return (
-    <header className="w-full h-[100px] min-h-[100px] flex relative" id="header">
+    <header className="w-full h-[100px] min-h-[100px] flex relative z-50" id="header">
       <div className="flex items-center gap-8 pl-16" id="header-left">
         <div>
           <Image src="/pink-iso-potion.gif" width={48} height={48} alt="Potion Icon" />
@@ -67,13 +68,13 @@ export function Header() {
       </div>
       <div className="grow"></div>
       <div className="flex items-center gap-8 pr-16" id="header-right">
-        <div>PLAY</div>
+        <HeaderLink text="Game" href="game" />
         <div className="h-[32px] w-[1px] bg-[#212121]"></div>
-        <div>ALL STATS</div>
+        <HeaderLink text="All Stats" href="stats" />
         <div className="h-[32px] w-[1px] bg-[#212121]"></div>
-        <div>ACHIEVEMENTS</div>
+        <HeaderLink text="Achievements" href="achievements" />
         <div className="h-[32px] w-[1px] bg-[#212121]"></div>
-        <div>SETTINGS</div>
+        <HeaderLink text="Settings" href="settings" />
       </div>
     </header>
   );
