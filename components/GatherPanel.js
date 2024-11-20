@@ -1,76 +1,99 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { SectionHeaderColor } from "./SectionHeaderColor";
 import { ListItem } from "./ListItem";
 import ToolTip from "./ToolTip";
 import Image from "next/image";
 
-import 'overlayscrollbars/overlayscrollbars.css';
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-react';
+import "overlayscrollbars/overlayscrollbars.css";
+import { OverlayScrollbarsComponent } from "overlayscrollbars-react";
 
 import useGameStore from "../store/gameStore";
 
 export function GatherPanel() {
-      const level = useGameStore((state) => state.level);
-      const resourcePool = useGameStore((state) => state.resourcePool); // All possible resources to gather
-      const gatherResource = useGameStore((state) => state.gatherResource);
+  const level = useGameStore((state) => state.level);
+  const resourcePool = useGameStore((state) => state.resourcePool);
+  const gatherResource = useGameStore((state) => state.gatherResource);
 
-      const displayedResources = resourcePool.filter((resource) => resource.requiredLevel <= level);
+  const [newResources, setNewResources] = useState([]); // Track new resources
 
-      const handleGatherResource = (resourceId) => {
-            const success = gatherResource(resourceId); // Call gatherResource and check result
-            if (success) {
-                  // Trigger animation if the gathering was successful
-                  useGameStore.getState().setRecentlyUpdatedResource(resourceId);
-            }
-      };
+  const displayedResources = resourcePool.filter(
+    (resource) => resource.requiredLevel <= level
+  );
 
-      return (
-            <div className="flex grow flex-col bg-[#131313] rounded-xl rounded-tr-none rounded-tl-none overflow-hidden">
-                  <SectionHeaderColor
-                        title="GATHER"
-                        iconSrc="/sell.svg"
-                        bgColor="bg-[#4A5E5D]"
-                        iconWidth={15}
-                        iconHeight={16}
-                  />
-                  <div className="flex justify-between p-4 px-6 items-center border-b-[1px] border-[#212121] bg-background">
-                        <span className="flex gap-2">
-                              RESOURCE
-                              <Image alt="Down Carrot" src="/down-carrot.svg" width={8} height={8} />
-                        </span>
-                        <span className="flex gap-2 justify-end">
-                              ENERGY COST
-                              <Image alt="Down Carrot" src="/down-carrot.svg" width={8} height={8} />
-                        </span>
-                  </div>
-                  <OverlayScrollbarsComponent
-                        options={{
-                              className: "os-theme-dark", // Predefined dark theme
-                              scrollbars: {
-                                    autoHide: "scroll", // Auto-hide scrollbar when not in use
-                                    autoHideDelay: 100, // Delay before hiding
-                              },
-                        }}
-                        className="grow overflow-hidden"
+  useEffect(() => {
+    const unlocked = displayedResources.filter(
+      (resource) => resource.requiredLevel === level
+    );
+    setNewResources(unlocked.map((r) => r.id)); // Track IDs of newly unlocked resources
+  }, [level, displayedResources]);
+
+  const handleGatherResource = (resourceId) => {
+    const success = gatherResource(resourceId);
+    if (success) {
+      useGameStore.getState().setRecentlyUpdatedResource(resourceId);
+    }
+  };
+
+  return (
+    <div className="flex grow flex-col bg-[#131313] rounded-xl rounded-tr-none rounded-tl-none overflow-hidden">
+      <SectionHeaderColor
+        title="GATHER"
+        iconSrc="/sell.svg"
+        bgColor="bg-[#4A5E5D]"
+        iconWidth={15}
+        iconHeight={16}
+      />
+      <div className="flex justify-between p-4 px-6 items-center border-b-[1px] border-[#212121] bg-background">
+        <span className="flex gap-2">
+          RESOURCE
+          <Image alt="Down Carrot" src="/down-carrot.svg" width={8} height={8} />
+        </span>
+        <span className="flex gap-2 justify-end">
+          ENERGY COST
+          <Image alt="Down Carrot" src="/down-carrot.svg" width={8} height={8} />
+        </span>
+      </div>
+      <OverlayScrollbarsComponent
+        options={{
+          className: "os-theme-dark",
+          scrollbars: {
+            autoHide: "scroll",
+            autoHideDelay: 100,
+          },
+        }}
+        className="grow overflow-hidden"
+      >
+        <div className="grow overflow-auto">
+          {displayedResources.length === 0 ? (
+            <p>No resources available for your level.</p>
+          ) : (
+            displayedResources.map((resource) => {
+              const isNew = newResources.includes(resource.id);
+              return (
+                <ToolTip key={resource.id} tooltipText={`Gather ${resource.name}`}>
+                  <div
+                    id={`resource-${resource.id}`}
+                    className={`relative ${isNew ? "unlocked" : ""}`}
+                    onAnimationEnd={() =>
+                      setNewResources((prev) =>
+                        prev.filter((id) => id !== resource.id)
+                      )
+                    }
+                    onClick={() => handleGatherResource(resource.id)}
                   >
-                        <div className="grow overflow-auto">
-                              {displayedResources.length === 0 ? (
-                                    <p>No resources available for your level.</p>
-                              ) : (
-                                    displayedResources.map((resource) => (
-                                          <ToolTip key={resource.id} tooltipText={`Gather ${resource.name}`}>
-                                                <div onClick={() => handleGatherResource(resource.id)}>
-                                                      <ListItem
-                                                            text={resource.name}
-                                                            amount={resource.energyCost || 0}
-                                                      />
-                                                </div>
-                                          </ToolTip>
-                                    ))
-                              )}
-                        </div>
-                  </OverlayScrollbarsComponent>
-            </div>
-      );
+                    <ListItem
+                      text={resource.name}
+                      amount={resource.energyCost || 0}
+                    />
+                  </div>
+                </ToolTip>
+              );
+            })
+          )}
+        </div>
+      </OverlayScrollbarsComponent>
+    </div>
+  );
 }

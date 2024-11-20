@@ -4,6 +4,7 @@ import useDebugStore from "@/store/debugStore";
 import { useEffect, useRef } from "react";
 
 export function DebugMenu() {
+    
     const debugMessage = useDebugStore((state) => state.debugMessage);
     const debugTrigger = useDebugStore((state) => state.debugTrigger); // Listen to the trigger
     const debugColor = useDebugStore((state) => state.debugColor);

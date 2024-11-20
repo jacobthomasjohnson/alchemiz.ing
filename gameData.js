@@ -12,7 +12,7 @@ export const resourcePool = [
             energyCost: 15,
             requiredLevel: 1,
             description: 'Essential for potion mixing.',
-            xpGain: 10,
+            xpGain: 100,
             yield: 1,
       },
       {
@@ -170,7 +170,7 @@ export const initialPlayerStats = {
       currency: 12555, // Starting currency
       currencyGained: 0,
       energy: 100, // Starting current energy
-      level: 13, // Starting level
+      level: 1, // Starting level
       experience: 0, // Starting XP
       energyGain: 1,
       currencyGain: 0,

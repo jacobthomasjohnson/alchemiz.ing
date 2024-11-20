@@ -17,22 +17,24 @@ export function UpgradesPanel() {
     const availableUpgrades = upgradesPool.filter((item) => item.requiredLevel <= currentLevel && !upgrades.includes(item.id));
 
     return (
-        <div className="">
+        <div className="flex flex-col">
             <SectionHeader title="Upgrades" icon="/upgrades.svg" width={18} height={18} />
-            {availableUpgrades.map((upgrade) => (
-                <ToolTip 
-                    tooltipText={upgrade.description}
-                    bgColor={'bg-[#4A5E5D]'}
-                >
-                    <ListItem 
-                        key={upgrade.id} 
-                        text={upgrade.name} 
-                        amount={`$` + upgrade.cost}
-                        onClick={() => applyUpgrade(upgrade.id)}
-                        disabled={currency < upgrade.cost}
-                    />
-                </ToolTip>
-            ))}
+            <div className="max-h-[50%] overflow-auto">
+                {availableUpgrades.map((upgrade) => (
+                    <ToolTip 
+                        tooltipText={upgrade.description}
+                        bgColor={'bg-[#4A5E5D]'}
+                    >
+                        <ListItem 
+                            key={upgrade.id} 
+                            text={upgrade.name} 
+                            amount={`$` + upgrade.cost}
+                            onClick={() => applyUpgrade(upgrade.id)}
+                            disabled={currency < upgrade.cost}
+                        />
+                    </ToolTip>
+                ))}
+            </div>
         </div>
     )
 }
