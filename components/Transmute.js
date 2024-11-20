@@ -61,7 +61,7 @@ export function Transmute() {
         >
             {text}
             <div
-                className={`absolute top-0 left-0 right-0 bottom-0 w-full h-full -z-10 pointer-events-none transition-opacity duration-500 saturate-[20%] contrast-[35%] ${
+                className={`absolute top-0 left-0 right-0 bottom-0 w-full h-full -z-10 pointer-events-none transition-opacity duration-500 saturate-[50%] contrast-[50%] ${
                     showVideo ? "opacity-100" : "opacity-0"
                 }`}
             >
@@ -71,7 +71,7 @@ export function Transmute() {
                     muted
                     loop
                 >
-                    <source src="/transmute2.mp4" type="video/mp4" />
+                    <source src="/transmute_video.mp4" type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
             </div>
