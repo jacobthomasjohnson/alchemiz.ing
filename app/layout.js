@@ -35,8 +35,6 @@ export default function RootLayout({ children }) {
 
         {children}
 
-        <DebugMenu />
-
       </body>
     </html>
   );

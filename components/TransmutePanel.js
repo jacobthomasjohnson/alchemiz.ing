@@ -13,7 +13,6 @@ export function TransmutePanel() {
 
     return (
         <div className="">
-            <SectionHeader title="Transmute" icon="/gather.svg" width={18} height={18} />
             <Transmute />
         </div>
     )

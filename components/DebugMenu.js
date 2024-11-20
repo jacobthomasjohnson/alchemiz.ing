@@ -20,16 +20,16 @@ export function DebugMenu() {
         let textColor = null;
 
         if(debugColor === 'blue') {
-            textColor = "blue";
+            textColor = "#48768A";
         } else if (debugColor === 'red') {
-            textColor = "red";
+            textColor = "#6B4449";
         } else if (debugColor === 'green') {
-            textColor = "green";
+            textColor = "#4A5E5D";
         }
 
         debugDiv.style = `color: ${textColor}`;
 
-        debugDiv.style.animation = "fade-out 4s ease-out forwards";
+        debugDiv.style.animation = "fade-out 2s ease-out 2s forwards";
 
         // Append the div to the container
         containerRef.current.appendChild(debugDiv);
@@ -46,7 +46,7 @@ export function DebugMenu() {
     return (
         <div
             ref={containerRef} // Attach the container to the ref
-            className="fixed bottom-0 w-full p-2 font-mono pointer-events-none"
+            className="absolute bottom-0 w-full p-2 font-mono pointer-events-none"
         >
             {/* Debug messages are dynamically appended here */}
         </div>

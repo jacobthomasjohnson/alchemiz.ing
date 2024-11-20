@@ -88,18 +88,27 @@ export const upgradesPool = [
             id: 3,
             name: 'Gardener I',
             description:
-                  'Earn 4 extra herbs per gather.',
+                  'Earn 2 extra herbs per gather.',
             cost: 750,
             requiredLevel: 7,
-            effect: { resourceBonus: { resource: 2, amount: 4 } }
+            effect: { resourceBonus: { resource: 2, amount: 2 } }
       },
       {
             id: 4,
+            name: 'Garden Keep',
+            description:
+                  'Hire a Garden Keep to bring you herbs.',
+            cost: 2000,
+            requiredLevel: 9,
+            effect: { autoGather: { resource: 2, amount: 0.5 } }
+      },
+      {
+            id: 5,
             name: 'Coal Cart',
             description:
                   'Passively collect coal at a slow but useful rate.',
             cost: 2200,
-            requiredLevel: 10,
+            requiredLevel: 11,
             effect: { autoGather: { resource: 3, amount: 0.5 } }
       }
       
