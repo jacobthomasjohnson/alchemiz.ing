@@ -1,4 +1,4 @@
-export const xpRequirements = [100, 150, 250, 400, 550, 800, 1000, 1500, 2500, 4000, 6000];
+export const xpRequirements = [100, 150, 250, 400, 550, 800, 1000, 1500, 2500, 4000, 6000, 12000, 3000, 10000];
 
 export const getXpForNextLevel = (level) => {
       return xpRequirements[level - 1] || Math.floor(100 * Math.pow(level, 1.5));
@@ -56,6 +56,13 @@ export const inventoryPool = [
             requirements: [{ id: 1, quantity: 12 }, { id: 3, quantity: 6 }],
             cost: 350,
             requiredLevel: 9,
+      },
+      {
+            id: 4,
+            name: 'Fuel Package',
+            requirements: [{ id: 3, quantity: 20 }],
+            cost: 200,
+            requiredLevel: 11,
       }
 ];
 

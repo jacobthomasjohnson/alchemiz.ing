@@ -32,6 +32,8 @@ const useGameStore = create((set, get) => ({
       xpFromSalesMultiplier: 1,
       xpFromCraftingMultiplier: 1,
 
+      defaultSalesMultiplier: 0.25,
+
       /* Inventorys, Current Active Upgrades */
       resources: [],
       inventory: [],
@@ -310,6 +312,7 @@ const useGameStore = create((set, get) => ({
             const itemIndex = state.inventory.findIndex((item) => item.id === itemId);
             const inventoryItem = state.inventoryPool.find((poolItem) => poolItem.id === itemId);
             const xpFromSalesMultiplier = state.xpFromSalesMultiplier;
+            const defaultSalesMultiplier = state.defaultSalesMultiplier;
 
             if (itemIndex === -1 || !inventoryItem) {
                   console.log(`Item ${itemId} not found in inventory or inventoryPool.`);
@@ -329,7 +332,7 @@ const useGameStore = create((set, get) => ({
             useDebugStore.getState().setDebugMessage(`Sold a ${itemId} for ${itemCost}`, 'green');
 
             // Gain experience based on the item's cost and multiplier
-            useGameStore.getState().gainExperience(itemCost * xpFromSalesMultiplier);
+            useGameStore.getState().gainExperience((itemCost * defaultSalesMultiplier) * xpFromSalesMultiplier);
 
             return {
                   currency: state.currency + itemCost, // Add the item's cost to currency

@@ -21,8 +21,6 @@ export function LevelBar() {
             style={{ width: `${levelProgress}%` }}
           ></div>
         </div>
-        Experience: {experience}<br />
-        XP To Next Level: {xpToNextLevel}
       </div>
     </div>
   );
