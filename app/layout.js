@@ -24,11 +24,11 @@ export default function RootLayout({ children }) {
         <div className="h-full w-full flex flex-col overflow-hidden" id="whole-page">
           <InitGame />
           <Header />
-          <div className="flex grow w-full px-16 gap-8 overflow-hidden" id="panels-container">
+          <div className="flex grow w-full px-16 gap-8 overflow-hidden " id="panels-container">
             <LeftPanel /> {/* Contains Inventory, Resources Panels */}
-            <div className="h-full w-[2px] bg-[#3d3d3d]"></div>
+            <div className="h-full w-[2px] bg-[#3d3d3d] transmute-flash"></div>
             <CenterPanel /> {/* Contains Gather, Sell, Crafting, and Actions Panels */}
-            <div className="h-full w-[2px] bg-[#3d3d3d]"></div>
+            <div className="h-full w-[2px] bg-[#3d3d3d] transmute-flash"></div>
             <RightPanel /> {/* Contains Progress, Upgrades Panels */}
           </div>
           <div className="h-[50px] min-h-[50px]" id="footer-space"></div>

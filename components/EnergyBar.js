@@ -24,7 +24,7 @@ export function EnergyBar() {
         ENERGY
       </div>
       <div className="w-[75%]">
-        <div className="w-full h-6 overflow-hidden bg-[#222222] rounded-lg">
+        <div className="w-full h-6 overflow-hidden bg-[#222222] rounded-lg transmute-flash">
           <div
             className="h-full bg-[#48768A] transition-all ease-linear duration-100"
             style={{ width: `${energyProgress}%` }}

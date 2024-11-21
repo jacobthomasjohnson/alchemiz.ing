@@ -23,11 +23,11 @@ export function GatherPanel() {
   );
 
   useEffect(() => {
-    const unlocked = displayedResources.filter(
-      (resource) => resource.requiredLevel === level
-    );
-    setNewResources(unlocked.map((r) => r.id)); // Track IDs of newly unlocked resources
-  }, [level, displayedResources]);
+      const unlocked = resourcePool.filter(
+        (resource) => resource.requiredLevel === level
+      );
+      setNewResources(unlocked.map((r) => r.id)); // Track IDs of newly unlocked resources
+    }, [level, resourcePool]); // Add resourcePool explicitly as a dependency
 
   const handleGatherResource = (resourceId) => {
     const success = gatherResource(resourceId);
@@ -37,7 +37,7 @@ export function GatherPanel() {
   };
 
   return (
-    <div className="flex grow flex-col bg-[#131313] rounded-xl rounded-tr-none rounded-tl-none overflow-hidden">
+    <div className="flex grow flex-col bg-background rounded-xl rounded-tr-none rounded-tl-none overflow-hidden">
       <SectionHeaderColor
         title="GATHER"
         iconSrc="/sell.svg"

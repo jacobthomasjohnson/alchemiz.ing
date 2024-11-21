@@ -35,7 +35,7 @@ export function InventoryPanel() {
 
   return (
     <>
-      <div className="grow max-h-[50%]">
+      <div className="grow h-full">
             <SectionHeader title="Inventory" icon="/inventory.svg" width={16} height={16} bgColor={"background"} />
             {inventory.length === 0 ? (
             <p className="px-8 py-4">Your inventory is empty.</p>

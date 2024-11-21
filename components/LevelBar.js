@@ -15,7 +15,7 @@ export function LevelBar() {
         LEVEL
       </div>
       <div className="w-[75%]">
-        <div className="w-full h-6 overflow-hidden bg-[#222222] rounded-lg">
+        <div className="w-full transmute-flash h-6 overflow-hidden bg-[#222222] rounded-lg">
           <div
             className="h-full bg-[#708B56] transition-all duration-500"
             style={{ width: `${levelProgress}%` }}
