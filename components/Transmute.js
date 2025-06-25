@@ -23,77 +23,76 @@ const easeOut = cubicBezier(0, 1, 0, 1)
 
 let animationFrameId
 
-export function startFractalAnimation() {
-      const canvas = document.getElementById('shardCanvas');
-      const ctx = canvas.getContext('2d');
-    
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    
-      const level = useGameStore.getState().level;
-    
-      const shards = [];
-      const shardCount = 1000; // Adjust for your desired density
-      const duration = 1000; // Duration of animation in ms
-      const startTime = performance.now();
-    
-      // Cancel any ongoing animation
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-      }
-    
-      // Generate shards with random properties
-      for (let i = 0; i < shardCount; i++) {
-        shards.push({
-          x: Math.random() * canvas.width, // Random starting point across the page
-          y: Math.random() * canvas.height,
-          angle: -Math.PI / 2, // Always move straight up
-          speed: Math.random() * 2000 + 50, // Reasonable speed
-          size: Math.random() * 1 + 2, // Random size
-          baseColor: 'rgba(173, 216, 230,' // Light blue
-        });
-      }
-    
-      function animate(timestamp) {
-        const elapsed = timestamp - startTime;
-    
-        if (elapsed > duration) {
-          ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
-          return;
-        }
-    
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
-        const progress = Math.min(elapsed / duration, 1); // Progress [0, 1]
-    
-        // Draw each shard
-        shards.forEach((shard) => {
-          const distance = shard.speed * progress; // Adjust distance with easing
-          const x = shard.x + Math.cos(shard.angle) * distance;
-          const y = shard.y + Math.sin(shard.angle) * distance;
-    
-          // Calculate fading opacity
-          const opacity = 1 - progress; // Fade from 1 to 0
-    
-          // Draw the shard as a small line
-          ctx.beginPath();
-          ctx.moveTo(x, y);
-          ctx.lineTo(
-            x + Math.cos(shard.angle) * shard.size,
-            y + Math.sin(shard.angle) * shard.size
-          );
-          ctx.strokeStyle = `${shard.baseColor} ${opacity})`;
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        });
-    
-        animationFrameId = requestAnimationFrame(animate);
-      }
-    
-      animationFrameId = requestAnimationFrame(animate); // Start the animation
+export function startFractalAnimation () {
+  const canvas = document.getElementById('shardCanvas')
+  const ctx = canvas.getContext('2d')
+
+  canvas.width = window.innerWidth
+  canvas.height = window.innerHeight
+
+  const level = useGameStore.getState().level
+
+  const shards = []
+  const shardCount = 1000 // Adjust for your desired density
+  const duration = 1000 // Duration of animation in ms
+  const startTime = performance.now()
+
+  // Cancel any ongoing animation
+  if (animationFrameId) {
+    cancelAnimationFrame(animationFrameId)
+    ctx.clearRect(0, 0, canvas.width, canvas.height) // Clear the canvas
+  }
+
+  // Generate shards with random properties
+  for (let i = 0; i < shardCount; i++) {
+    shards.push({
+      x: Math.random() * canvas.width, // Random starting point across the page
+      y: Math.random() * canvas.height,
+      angle: -Math.PI / 2, // Always move straight up
+      speed: Math.random() * 2000 + 50, // Reasonable speed
+      size: Math.random() * 1 + 2, // Random size
+      baseColor: 'rgba(173, 216, 230,' // Light blue
+    })
+  }
+
+  function animate (timestamp) {
+    const elapsed = timestamp - startTime
+
+    if (elapsed > duration) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height) // Clear the canvas
+      return
     }
-    
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+
+    const progress = Math.min(elapsed / duration, 1) // Progress [0, 1]
+
+    // Draw each shard
+    shards.forEach(shard => {
+      const distance = shard.speed * progress // Adjust distance with easing
+      const x = shard.x + Math.cos(shard.angle) * distance
+      const y = shard.y + Math.sin(shard.angle) * distance
+
+      // Calculate fading opacity
+      const opacity = 1 - progress // Fade from 1 to 0
+
+      // Draw the shard as a small line
+      ctx.beginPath()
+      ctx.moveTo(x, y)
+      ctx.lineTo(
+        x + Math.cos(shard.angle) * shard.size,
+        y + Math.sin(shard.angle) * shard.size
+      )
+      ctx.strokeStyle = `${shard.baseColor} ${opacity})`
+      ctx.lineWidth = 1
+      ctx.stroke()
+    })
+
+    animationFrameId = requestAnimationFrame(animate)
+  }
+
+  animationFrameId = requestAnimationFrame(animate) // Start the animation
+}
 
 export function Transmute () {
   const [text, setText] = useState('Transmute')
@@ -212,7 +211,7 @@ export function Transmute () {
           height: '100%',
           zIndex: -1, // Ensure it's on top of other elements
           pointerEvents: 'none', // Allow interactions with underlying content
-          className: 'transmute-flash',
+          className: 'transmute-flash'
         }}
       ></canvas>
     </>

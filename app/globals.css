@@ -113,8 +113,6 @@ body {
   animation: flash-border 2s cubic-bezier(0, 1, 0, 1);
 }
 
-
-
 .animate-glow {
   animation: glowFade 2s cubic-bezier(0.075, 0.82, 0.165, 1);
   pointer-events: none; /* Prevent interfering with clicks */

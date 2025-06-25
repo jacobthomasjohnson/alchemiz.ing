@@ -1,5 +1,3 @@
-export default function PanelSpacer() {
-    return (
-        <div className="grow"></div>
-    )
+export default function PanelSpacer () {
+  return <div className='grow'></div>
 }

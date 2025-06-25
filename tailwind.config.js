@@ -1,24 +1,24 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
     extend: {
       colors: {
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: 'var(--background)',
+        foreground: 'var(--foreground)'
       },
       animation: {
-        bounce: "bounce 1s ease-in-out",
+        bounce: 'bounce 1s ease-in-out'
       },
       keyframes: {
         bounce: {
-          "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-10px)" },
-        },
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-10px)' }
+        }
       },
       animationTimingFunction: {
         // Common easing functions
@@ -53,10 +53,10 @@ module.exports = {
         'snap-end': 'cubic-bezier(0.25, 1.5, 0.5, 1)',
 
         // Dramatic effects
-        'dramatic': 'cubic-bezier(0.6, -0.28, 0.735, 0.045)',
-        'dramatic-slow': 'cubic-bezier(0.25, 1.75, 0.75, -0.75)',
-      },
-    },
+        dramatic: 'cubic-bezier(0.6, -0.28, 0.735, 0.045)',
+        'dramatic-slow': 'cubic-bezier(0.25, 1.75, 0.75, -0.75)'
+      }
+    }
   },
-  plugins: [],
-};
+  plugins: []
+}

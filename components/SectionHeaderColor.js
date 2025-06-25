@@ -1,12 +1,20 @@
-"use client";
+'use client'
 
-import Image from "next/image";
+import Image from 'next/image'
 
-export function SectionHeaderColor({ title, iconSrc, bgColor, iconWidth, iconHeight }) {
+export function SectionHeaderColor ({
+  title,
+  iconSrc,
+  bgColor,
+  iconWidth,
+  iconHeight
+}) {
   return (
-    <div className={`flex items-center justify-center gap-2 p-8 transmute-flash ${bgColor}`}>
+    <div
+      className={`flex items-center justify-center gap-2 p-8 transmute-flash ${bgColor}`}
+    >
       <Image src={iconSrc} width={iconWidth} height={iconHeight} />
       {title}
     </div>
-  );
+  )
 }

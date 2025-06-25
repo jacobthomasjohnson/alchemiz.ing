@@ -1,63 +1,71 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect, cloneElement } from 'react';
+import React, { useState, useEffect, cloneElement } from 'react'
 
-const ToolTip = ({ children, tooltipText = "No item selected", bgColor, disabled }) => {
-  const [mousePosition, setMousePosition] = useState({ top: 0, left: 0 });
-  const [isVisible, setIsVisible] = useState(false);
+const ToolTip = ({
+  children,
+  tooltipText = 'No item selected',
+  bgColor,
+  disabled
+}) => {
+  const [mousePosition, setMousePosition] = useState({ top: 0, left: 0 })
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      const { clientX: x, clientY: y } = e;
+    const handleMouseMove = e => {
+      const { clientX: x, clientY: y } = e
 
-      const offsetX = window.innerWidth - x < 150 ? -120 : 20;
-      const offsetY = 30;
+      const offsetX = window.innerWidth - x < 150 ? -120 : 20
+      const offsetY = 30
 
       setMousePosition({
         top: y + offsetY,
-        left: x + offsetX,
-      });
-    };
+        left: x + offsetX
+      })
+    }
 
     if (typeof window !== 'undefined') {
-      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener('mousemove', handleMouseMove)
     }
 
     return () => {
       if (typeof window !== 'undefined') {
-        window.removeEventListener("mousemove", handleMouseMove);
+        window.removeEventListener('mousemove', handleMouseMove)
       }
-    };
-  }, []);
+    }
+  }, [])
 
-  const showTooltip = () => setIsVisible(true);
-  const hideTooltip = () => setIsVisible(false);
+  const showTooltip = () => setIsVisible(true)
+  const hideTooltip = () => setIsVisible(false)
 
   return (
     <div
-      
       onMouseEnter={showTooltip}
       onMouseLeave={hideTooltip}
-
-      className={`relative w-full tooltip-wrapper ${disabled ? 'pointer-events-none' : ''}`}
-
+      className={`relative w-full tooltip-wrapper ${
+        disabled ? 'pointer-events-none' : ''
+      }`}
     >
-      {cloneElement(children, { className: "tooltip-trigger" })}
+      {cloneElement(children, { className: 'tooltip-trigger' })}
 
       {isVisible && (
         <div
           style={{
             top: mousePosition.top,
-            left: mousePosition.left,
+            left: mousePosition.left
           }}
-          className={`${bgColor ? bgColor : 'bg-[#222222]'} fixed z-10 pointer-events-none text-white text-sm rounded p-4 
-                      transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+          className={`${
+            bgColor ? bgColor : 'bg-[#222222]'
+          } fixed z-10 pointer-events-none text-white text-sm rounded p-4 
+                      transition-opacity duration-500 ${
+                        isVisible ? 'opacity-100' : 'opacity-0'
+                      }`}
         >
           {tooltipText}
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default ToolTip;
+export default ToolTip
