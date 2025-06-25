@@ -26,8 +26,12 @@ export function UpgradesPanel () {
         height={18}
       />
       <div className='max-h-[50%] overflow-auto'>
-        {availableUpgrades.map(upgrade => (
-          <ToolTip tooltipText={upgrade.description} bgColor={'bg-[#4A5E5D]'}>
+        {availableUpgrades.map((upgrade, i) => (
+          <ToolTip
+            key={i}
+            tooltipText={upgrade.description}
+            bgColor={'bg-[#4A5E5D]'}
+          >
             <ListItem
               unlockable='true'
               key={upgrade.id}

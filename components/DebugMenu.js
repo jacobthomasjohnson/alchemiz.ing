@@ -10,38 +10,31 @@ export function DebugMenu () {
   const containerRef = useRef(null)
 
   useEffect(() => {
-    if (!debugMessage) return // Skip if there's no message
+    if (!debugMessage) return
 
-    // Create a new div
     const debugDiv = document.createElement('div')
     debugDiv.textContent = debugMessage
-    debugDiv.className = `debug-message mb-2 p-1 rounded transition-opacity duration-4000`
+    debugDiv.className =
+      'debug-message mb-2 p-1 rounded transition-opacity duration-4000'
 
-    let textColor = null
+    // pick a colour
+    const textColor =
+      debugColor === 'blue'
+        ? '#48768A'
+        : debugColor === 'red'
+        ? '#6B4449'
+        : debugColor === 'green'
+        ? '#4A5E5D'
+        : undefined
 
-    if (debugColor === 'blue') {
-      textColor = '#48768A'
-    } else if (debugColor === 'red') {
-      textColor = '#6B4449'
-    } else if (debugColor === 'green') {
-      textColor = '#4A5E5D'
-    }
-
-    debugDiv.style = `color: ${textColor}`
-
+    if (textColor) debugDiv.style.color = textColor
     debugDiv.style.animation = 'fade-out 2s ease-out 2s forwards'
 
-    // Append the div to the container
-    containerRef.current.appendChild(debugDiv)
+    containerRef.current?.appendChild(debugDiv)
 
-    // Remove the div after the animation ends
-    const timer = setTimeout(() => {
-      debugDiv.remove()
-    }, 4000) // Match the fade-out duration
-
-    // Cleanup timer
+    const timer = setTimeout(() => debugDiv.remove(), 4000)
     return () => clearTimeout(timer)
-  }, [debugTrigger]) // Run the effect every time `debugTrigger` changes
+  }, [debugTrigger, debugMessage, debugColor])
 
   return (
     <div
